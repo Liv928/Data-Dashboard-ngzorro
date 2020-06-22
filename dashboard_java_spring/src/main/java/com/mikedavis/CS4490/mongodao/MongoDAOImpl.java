@@ -29,7 +29,7 @@ public class MongoDAOImpl implements MongoDAO{
     }
 
     //-----------------------------------------------------------------------------------------------------------------------
-    
+
     @Override
     public List<DBObject> getMongoDataByID(String id, String date){
         return  mongoTemplate.find(new Query(Criteria.where("_id").is(id + "-" + date)), DBObject.class, "3357");
