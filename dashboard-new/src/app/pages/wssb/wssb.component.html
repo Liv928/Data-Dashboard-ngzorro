@@ -1,0 +1,39 @@
+<h1>Western Student Service Building Data</h1>
+
+    <nz-select
+      [(ngModel)]="selectedSensor"
+      (ngModelChange)="selectSensor($event)"
+      nzAllowClear
+      nzPlaceHolder="Select a sensor"
+    >
+      <nz-option *ngFor="let sensor of sensors" [nzValue]="sensor" [nzLabel]="sensor.name"></nz-option>
+    </nz-select>
+   
+<p>{{selectedSensor.id}}</p>
+
+<div nz-row nzGutter="16">
+  <div nz-col class="gutter-row" nzSpan="12">
+    <div class="gutter-box-chart">
+      <highcharts-chart
+      [Highcharts]="Highcharts"
+      [constructorType]="'stockChart'"
+      [options]="chartOptions"
+      [oneToOne]=true
+      [(update)]="updateFromInput"
+      style="width: 550px; height:400px; display:block;"
+      ></highcharts-chart>
+    </div>
+  </div>
+  <div nz-col class="gutter-row" nzSpan="12">
+    <div class="gutter-box-chart">
+      <highcharts-chart
+      [Highcharts]="Highcharts"
+      [constructorType]="'stockChart'"
+      [options]="chartOptions"
+      [oneToOne]=true
+      [(update)]="updateFromInput"
+      style="width:550px; height:400px; display:block;"
+      ></highcharts-chart>
+    </div>
+  </div>
+</div>

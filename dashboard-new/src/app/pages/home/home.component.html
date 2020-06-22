@@ -1,0 +1,51 @@
+<div class="content-box">
+        
+  <div nz-row nzGutter="16">
+    <div nz-col class="gutter-row" nzSpan="12">
+      <div class="gutter-box-chart">
+        <highcharts-chart
+        [Highcharts]="Highcharts"
+        [constructorType]="'stockChart'"
+        [options]="chartOptions"
+        [oneToOne]=true
+        [(update)]="updateFromInput"
+        style="width: 550px; height:400px; display:block;"
+        ></highcharts-chart>
+      </div>
+    </div>
+    <div nz-col class="gutter-row" nzSpan="12">
+      <div class="gutter-box-chart">
+        <highcharts-chart
+        [Highcharts]="Highcharts"
+        [constructorType]="'stockChart'"
+        [options]="chartOptions"
+        [oneToOne]=true
+        [(update)]="updateFromInput"
+        style="width:550px; height:400px; display:block;"
+        ></highcharts-chart>
+      </div>
+    </div>
+  </div>
+  <div nz-row nzGutter="16">
+    <div nz-col class="gutter-row" nzSpan="6">
+      <div class="gutter-box-data">
+        mean
+      </div>
+    </div>
+    <div nz-col class="gutter-row" nzSpan="6">
+      <div class="gutter-box-data">
+        median
+      </div>
+    </div>
+    <div nz-col class="gutter-row" nzSpan="6">
+      <div class="gutter-box-data">
+        highest
+      </div>
+    </div>
+    <div nz-col class="gutter-row" nzSpan="6">
+      <div class="gutter-box-data">
+        lowest
+      </div>
+    </div>
+  </div>
+  </div>
