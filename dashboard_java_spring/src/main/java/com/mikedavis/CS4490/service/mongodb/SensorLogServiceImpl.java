@@ -50,8 +50,8 @@ public class SensorLogServiceImpl implements SensorLogService {
             for(String key : object.keySet()){
                 if(key.matches("^\\d{2}:\\d{2}:\\d{2}$")){
                     JSONArray dataPoint = new JSONArray();
-                    dataPoint.put(key); //"00:00:00"
-                    dataPoint.put(object.get(key)); //actual data
+                    dataPoint.put(key);//"00:00:00"
+                    dataPoint.put(object.get(key));
                     data.put(dataPoint);
                 }
             }
@@ -61,7 +61,9 @@ public class SensorLogServiceImpl implements SensorLogService {
 
     // add JSONData ["timestamp", "data point"] to an existed jsonArray
     public void addJSONDataByID(String id, String date, List<JSONArray> jsonArray){
-        List<DBObject> sensorLogDoc = mongoTemplate.find(new Query(Criteria.where("_id").is(id + "-" + date)), DBObject.class, "3357");
+        System.out.println("addJSON-id: "+id+" date: "+date);
+        List<DBObject> sensorLogDoc = mongoTemplate.find(new Query(Criteria.where("_id").is(id + "628-" + date)), DBObject.class, "3357");
+
         SimpleDateFormat simpleDateFormat = new  SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         Long timeStamp;
@@ -69,7 +71,7 @@ public class SensorLogServiceImpl implements SensorLogService {
         for(DBObject object : sensorLogDoc){
             for(String key : object.keySet()){
                 if(key.matches("^\\d{2}:\\d{2}:\\d{2}$")){
-
+                    System.out.println("key-"+key+" matches");
                     JSONArray dataPoint = new JSONArray();
                     String start = date + " " + key;
                     try{
@@ -147,11 +149,13 @@ public class SensorLogServiceImpl implements SensorLogService {
         SensorData sensorData = new SensorData();
         sensorData.setSensor(sensorService.getSensor(id));
         sensorData.setAdditionalMetadata(sensorService.getAdditionalMetadata(id)); //from sql server
-        sensorData.setSensorMeta(getSensorMetaDataByID(id));
+        sensorData.setSensorMeta(getSensorMetaDataByID(id));                       //from mongodb
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String start = sensorData.getSensorMeta().getFirst();
+        System.out.println("first: "+start);
         String end = sensorData.getSensorMeta().getLast();
+        System.out.println("last:" + end);
 
         LocalDate startDate = LocalDate.parse(start, formatter);
         LocalDate endDate = LocalDate.parse(end, formatter);
@@ -161,6 +165,7 @@ public class SensorLogServiceImpl implements SensorLogService {
         {
             addJSONDataByID(id, date.toString(), data);
         }
+        System.out.println("all data size: " + data.size());
 
         Collections.sort(data, new Comparator<JSONArray>(){
             @Override
@@ -191,6 +196,7 @@ public class SensorLogServiceImpl implements SensorLogService {
     }
 
     //return a list of sensorMeta
+    //currently not invoked by any function 2020-6-22
     public List<SensorMeta> findSensorMetasById(String id) {
         List<SensorMeta> sensorMetas = mongoDAO.findSensorMetasById(id);
         return sensorMetas;

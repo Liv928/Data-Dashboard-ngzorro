@@ -20,9 +20,10 @@ public class MongoDAOImpl implements MongoDAO{
 
     @Override
     public SensorMeta findSensorMetaById(String id) {
-        return mongoTemplate.findOne(new Query(Criteria.where("_id").is(id)), SensorMeta.class, "3357_meta");
+        return mongoTemplate.findOne(new Query(Criteria.where("_id").is(id)), SensorMeta.class, "sensor_meta");
     }
 
+    // currently not invoked by any function 2020-06-22
     @Override
     public List<SensorMeta> findSensorMetasById(String id){
         return mongoTemplate.find(new Query(Criteria.where("name").regex(id)), SensorMeta.class, "3357_meta");

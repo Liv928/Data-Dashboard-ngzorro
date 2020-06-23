@@ -33,12 +33,16 @@ export class WssbComponent implements OnInit {
   public sensors: [];
   public selectedSensor = {id:''};
   public sensorData;
+  public seriesData: [];
+
   public events = [];
   public eventDetails = {};
   public eventData ;
   public additionalMetadata: AdditionalMetadata[] = [];
   public selectedMeta: AdditionalMetadata;
-  public seriesData;
+
+  public timestamps = [];
+  public datapoint = [];
 
   plotBandEvents = {
     click(e) {
@@ -128,13 +132,22 @@ export class WssbComponent implements OnInit {
   };
 
 
-  selectSensor($event) {
-    this.sensorService.getAllSensorData($event.value.id).subscribe((data) => {
+  selectSensor(value: { id: string}): void {
+    this.sensorService.getAllSensorData(value.id).subscribe((data) => {
       this.additionalMetadata = [];
       this.events.length = 0;
       this.eventData = null;
-      this.sensorData = {sensor1: data};
-      this.seriesData = {sensor1: JSON.parse(data.data)};
+      this.sensorData = data.sensor.data;
+      this.seriesData = JSON.parse(data.data);
+
+      for (let i =0; i<this.seriesData.length; i++){
+        console.log("i: " + i + "temp[i]: " + this.seriesData[i][1]);
+      
+        this.timestamps.push(this.seriesData[i][0]);
+        this.datapoint.push(this.seriesData[i][1]);
+
+      }
+      console.log("size " + this.timestamps.length + " " + this.datapoint.length);
       for (const item of data.additionalMetadata) {
         this.additionalMetadata.push(item);
       }
