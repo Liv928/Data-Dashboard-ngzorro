@@ -1,8 +1,8 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import StockModule from 'highcharts/modules/stock';
-import { NzGridModule } from 'ng-zorro-antd/grid'
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 import {AddSensorsComponent} from '../../dialog/add-sensors/add-sensors.component';
 import {AddEventComponent} from '../../dialog/add-event/add-event.component';
@@ -14,6 +14,8 @@ import {EditMetadataComponent} from '../../dialog/edit-metadata/edit-metadata.co
 
 import {AdditionalMetadata} from '../../model/additional-metadata';
 import { SensorService } from '../../services/sensor.service';
+
+
 StockModule(Highcharts);
 
 Highcharts.setOptions({
@@ -47,6 +49,9 @@ export class MiscComponent implements OnInit {
   public selectedMeta: AdditionalMetadata;
   public seriesData;
   public selectedBuilding;
+
+  public timestamps = [];
+  public datapoint = [];
 
   plotBandEvents = {
     click(e) {
@@ -91,7 +96,7 @@ export class MiscComponent implements OnInit {
       }
     }
   };
-  constructor(private sensorService: SensorService) { }
+  constructor(private sensorService: SensorService, private modalService: NzModalService) { }
 
   ngOnInit(){
     this.sensorService.getSensorsByBuilding(this.buildingID).subscribe((data) => {
@@ -140,8 +145,13 @@ export class MiscComponent implements OnInit {
       this.additionalMetadata = [];
       this.events.length = 0;
       this.eventData = null;
-      this.sensorData = {sensor1: data};
-      this.seriesData = {sensor1: JSON.parse(data.data)};
+      this.sensorData = data.sensor.data;
+      this.seriesData = JSON.parse(data.data);
+
+      for (let i =0; i<this.seriesData.length; i++){
+        this.timestamps.push(this.seriesData[i][0]);
+        this.datapoint.push(this.seriesData[i][1]);
+      }
       for (const item of data.additionalMetadata) {
         this.additionalMetadata.push(item);
       }
@@ -174,5 +184,29 @@ export class MiscComponent implements OnInit {
       that: this
     });
     this.updateFromInput = true;
+  }
+
+  selectMeta(data) {
+    this.selectedMeta = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      sensorId: data.sensorId
+    }
+  }
+
+
+  editMetaDialog(): void {
+
+  }
+
+  deleteMetaDialog(): void {
+  }
+
+  addMetaDialog(): void {
+    this.modalService.create({
+      nzTitle: 'Add Additional Metadata',
+      nzContent: AddMetadataComponent
+    });
   }
 }

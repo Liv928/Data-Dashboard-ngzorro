@@ -37,3 +37,44 @@
 </div>
     
 
+
+<p>datapoint: {{datapoint}}</p>
+<p>timestamps: {{timestamps[1]}}</p>
+
+<!--Metadata List-->
+<div nz-row nzGutter="16">
+  <div nz-col class="gutter-row" nzSpan="12">
+     <h3 style="text-align:center;">Additional Metadata</h3>
+     <div *ngIf="additionalMetadata">
+      <a *ngFor="let addedMetadata of additionalMetadata">
+        <li (click)="selectMeta(addedMetadata)">
+          {{addedMetadata.title}}
+        </li>
+      </a>
+    
+      <button nz-button nzType="primary" (click)="addMetaDialog()">
+        <span>Add Additional Metadata</span>
+      </button>
+    
+      <div *ngIf= "selectedMeta">
+        <p>{{selectedMeta.description}}</p>
+        <div class="meta-functions">       
+          <button nz-button nzType="primary" (click)="editMetaDialog()">
+            <span>Edit</span>
+          </button>  
+          <button nz-button nzType="primary" (click)="deleteMetaDialog()">
+            <span>Delete</span>
+          </button> 
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <!--Event List for current buildings-->
+  <div nz-col class="gutter-row" nzSpan="12">
+  
+    <h3 style="text-align:center;">Event</h3>
+    
+  </div>
+</div>

@@ -11,8 +11,13 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import {AdditionalMetadata} from '../../model/additional-metadata';
 import { SensorService } from '../../services/sensor.service';
 
+import {AddSensorsComponent} from '../../dialog/add-sensors/add-sensors.component';
+import {AddEventComponent} from '../../dialog/add-event/add-event.component';
+import {DeleteEventComponent} from '../../dialog/delete-event/delete-event.component';
+import {EditEventComponent} from '../../dialog/edit-event/edit-event.component';
 import {AddMetadataComponent} from '../../dialog/add-metadata/add-metadata.component';
-
+import {DeleteMetadataComponent} from '../../dialog/delete-metadata/delete-metadata.component';
+import {EditMetadataComponent} from '../../dialog/edit-metadata/edit-metadata.component';
 
 
 StockModule(Highcharts);

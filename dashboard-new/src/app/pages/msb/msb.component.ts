@@ -1,9 +1,16 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import StockModule from 'highcharts/modules/stock';
-import { NzGridModule } from 'ng-zorro-antd/grid'
+import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+
+import {AddSensorsComponent} from '../../dialog/add-sensors/add-sensors.component';
+import {AddEventComponent} from '../../dialog/add-event/add-event.component';
+import {DeleteEventComponent} from '../../dialog/delete-event/delete-event.component';
+import {EditEventComponent} from '../../dialog/edit-event/edit-event.component';
+import {AddMetadataComponent} from '../../dialog/add-metadata/add-metadata.component';
+import {DeleteMetadataComponent} from '../../dialog/delete-metadata/delete-metadata.component';
+import {EditMetadataComponent} from '../../dialog/edit-metadata/edit-metadata.component';
 
 import {AdditionalMetadata} from '../../model/additional-metadata';
 import { SensorService } from '../../services/sensor.service';
@@ -40,6 +47,9 @@ export class MsbComponent implements OnInit {
   public additionalMetadata: AdditionalMetadata[] = [];
   public selectedMeta: AdditionalMetadata;
   public seriesData;
+
+  public timestamps = [];
+  public datapoint = [];
 
   plotBandEvents = {
     click(e) {
@@ -84,7 +94,7 @@ export class MsbComponent implements OnInit {
       }
     }
   };
-  constructor(private sensorService: SensorService) { }
+  constructor(private sensorService: SensorService, private modalService: NzModalService) { }
 
   ngOnInit(){
     this.sensorService.getSensorsByBuilding(this.buildingID).subscribe((data) => {
@@ -134,8 +144,13 @@ export class MsbComponent implements OnInit {
       this.additionalMetadata = [];
       this.events.length = 0;
       this.eventData = null;
-      this.sensorData = {sensor1: data};
-      this.seriesData = {sensor1: JSON.parse(data.data)};
+      this.sensorData = data.sensor.data;
+      this.seriesData = JSON.parse(data.data);
+
+      for (let i =0; i<this.seriesData.length; i++){
+        this.timestamps.push(this.seriesData[i][0]);
+        this.datapoint.push(this.seriesData[i][1]);
+      }
       for (const item of data.additionalMetadata) {
         this.additionalMetadata.push(item);
       }
@@ -170,6 +185,28 @@ export class MsbComponent implements OnInit {
     this.updateFromInput = true;
   }
 
+  selectMeta(data) {
+    this.selectedMeta = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      sensorId: data.sensorId
+    }
+  }
 
+
+  editMetaDialog(): void {
+
+  }
+
+  deleteMetaDialog(): void {
+  }
+
+  addMetaDialog(): void {
+    this.modalService.create({
+      nzTitle: 'Add Additional Metadata',
+      nzContent: AddMetadataComponent
+    });
+  }
 
 }
