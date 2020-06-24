@@ -20,7 +20,7 @@ export class AddMetadataComponent implements OnInit {
   constructor(private modal: NzModalRef, private fb: FormBuilder) {
     this.validateForm = this.fb.group({
       userName: ['', [Validators.required], [this.userNameAsyncValidator]],
-      email: ['', [Validators.email, Validators.required]],
+      email: ['', [Validators.required]],
       comment: ['', [Validators.required]]
     });
    }

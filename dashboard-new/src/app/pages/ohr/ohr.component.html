@@ -81,6 +81,18 @@
   <div nz-col class="gutter-row" nzSpan="12">
   
     <h3 style="text-align:center;">Event</h3>
+    <div *ngIf="events">
+      <a *ngFor="let event of events">
+        <li (click)="selectEvent(event)">
+          {{event.title}}
+        </li>
+      </a>
+    
+      <button nz-button nzType="primary" (click)="addEventDialog()">
+        <span>Add Event</span>
+      </button>
+    
+    </div>
     
   </div>
 </div>

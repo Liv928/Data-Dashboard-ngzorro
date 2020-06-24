@@ -8,6 +8,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
+import {Event} from '../../model/event';
 import {AdditionalMetadata} from '../../model/additional-metadata';
 import { SensorService } from '../../services/sensor.service';
 
@@ -54,13 +55,13 @@ export class WssbComponent implements OnInit {
   public datapoint = [];
 
   public events = [];
+  public selectedEvent: Event;
+  /*
   public eventDetails = {};
-  public eventData ;
+  public eventData ;*/
+  
   public additionalMetadata: AdditionalMetadata[] = [];
   public selectedMeta: AdditionalMetadata;
-
-
-  
 
   plotBandEvents = {
     click(e) {
@@ -77,7 +78,6 @@ export class WssbComponent implements OnInit {
         end: endDate
       };
     },
-
     mouseover(e) {
       document.body.style.cursor = 'pointer';
       const chart = this.axis.chart;
@@ -111,7 +111,6 @@ export class WssbComponent implements OnInit {
   ngOnInit(){
     this.sensorService.getSensorsByBuilding(this.buildingID).subscribe((data) => {
       this.sensors = data;
-      
     });
     this.chartOptions = {
       legend: {
@@ -152,7 +151,8 @@ export class WssbComponent implements OnInit {
     this.sensorService.getAllSensorData(value.id).subscribe((data) => {
       this.additionalMetadata = [];
       this.events.length = 0;
-      this.eventData = null;
+      /*
+      this.eventData = null;*/
       this.sensorData = data.sensor.data;
       this.seriesData = JSON.parse(data.data);
 
@@ -208,6 +208,23 @@ export class WssbComponent implements OnInit {
     }
   }
 
+  selectEvent(data) {
+    const start = new Date(data.from);
+    let end = null;
+    if (data.to && data.to !== data.from) {
+      end = new Date(data.to);
+    }
+    this.selectedEvent = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      startDate: start,
+      endDate: end,
+      buildingId: data.buildingId,
+      clusterId: data.cluster,
+    };
+  }
+
   editMetaDialog(): void {
 
   }
@@ -219,6 +236,20 @@ export class WssbComponent implements OnInit {
     this.modalService.create({
       nzTitle: 'Add Additional Metadata',
       nzContent: AddMetadataComponent
+    });
+  }
+
+  editEventDialog(): void {
+
+  }
+
+  deleteEventDialog(): void {
+  }
+
+  addEventDialog(): void {
+    this.modalService.create({
+      nzTitle: 'Add Evnet',
+      nzContent: AddEventComponent
     });
   }
 }

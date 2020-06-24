@@ -3,10 +3,17 @@ import * as Highcharts from 'highcharts';
 import StockModule from 'highcharts/modules/stock';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
+import {Event} from '../../model/event';
 import {AdditionalMetadata} from '../../model/additional-metadata';
 import { SensorService } from '../../services/sensor.service';
 
+import {AddSensorsComponent} from '../../dialog/add-sensors/add-sensors.component';
+import {AddEventComponent} from '../../dialog/add-event/add-event.component';
+import {DeleteEventComponent} from '../../dialog/delete-event/delete-event.component';
+import {EditEventComponent} from '../../dialog/edit-event/edit-event.component';
 import {AddMetadataComponent} from '../../dialog/add-metadata/add-metadata.component';
+import {DeleteMetadataComponent} from '../../dialog/delete-metadata/delete-metadata.component';
+import {EditMetadataComponent} from '../../dialog/edit-metadata/edit-metadata.component';
 
 StockModule(Highcharts);
 
@@ -33,14 +40,14 @@ export class OhrComponent implements OnInit {
   public chartOptions;
   public sensors: [];
   public selectedSensor = {id:''};
-  public sensorData;
+  
   public events = [];
-  public eventDetails = {};
-  public eventData ;
+  public selectedEvent: Event;
   public additionalMetadata: AdditionalMetadata[] = [];
   public selectedMeta: AdditionalMetadata;
-  public seriesData;
 
+  public sensorData;
+  public seriesData;
   public timestamps = [];
   public datapoint = [];
 
@@ -135,7 +142,6 @@ export class OhrComponent implements OnInit {
     this.sensorService.getAllSensorData($event.value.id).subscribe((data) => {
       this.additionalMetadata = [];
       this.events.length = 0;
-      this.eventData = null;
       this.sensorData = data.sensor.data;
       this.seriesData = JSON.parse(data.data);
 
@@ -186,6 +192,22 @@ export class OhrComponent implements OnInit {
     }
   }
 
+  selectEvent(data) {
+    const start = new Date(data.from);
+    let end = null;
+    if (data.to && data.to !== data.from) {
+      end = new Date(data.to);
+    }
+    this.selectedEvent = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      startDate: start,
+      endDate: end,
+      buildingId: data.buildingId,
+      clusterId: data.cluster,
+    };
+  }
 
   editMetaDialog(): void {
 
@@ -201,4 +223,17 @@ export class OhrComponent implements OnInit {
     });
   }
 
+  editEventDialog(): void {
+
+  }
+
+  deleteEventDialog(): void {
+  }
+
+  addEventDialog(): void {
+    this.modalService.create({
+      nzTitle: 'Add Evnet',
+      nzContent: AddEventComponent
+    });
+  }
 }

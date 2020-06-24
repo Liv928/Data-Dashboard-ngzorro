@@ -12,6 +12,7 @@ import {AddMetadataComponent} from '../../dialog/add-metadata/add-metadata.compo
 import {DeleteMetadataComponent} from '../../dialog/delete-metadata/delete-metadata.component';
 import {EditMetadataComponent} from '../../dialog/edit-metadata/edit-metadata.component';
 
+import {Event} from '../../model/event';
 import {AdditionalMetadata} from '../../model/additional-metadata';
 import { SensorService } from '../../services/sensor.service';
 
@@ -41,18 +42,17 @@ export class MiscComponent implements OnInit {
   public chartOptions;
   public sensors: [];
   public selectedSensor = {name:''};
-  public sensorData;
+  
   public events = [];
-  public eventDetails = {};
-  public eventData ;
+  public selectedEvent: Event;
   public additionalMetadata: AdditionalMetadata[] = [];
   public selectedMeta: AdditionalMetadata;
-  public seriesData;
-  public selectedBuilding;
 
+  public sensorData;
+  public seriesData;
   public timestamps = [];
   public datapoint = [];
-
+  
   plotBandEvents = {
     click(e) {
       const startDate = new Date(this.options.from);
@@ -144,7 +144,6 @@ export class MiscComponent implements OnInit {
     this.sensorService.getAllSensorData($event.value.id).subscribe((data) => {
       this.additionalMetadata = [];
       this.events.length = 0;
-      this.eventData = null;
       this.sensorData = data.sensor.data;
       this.seriesData = JSON.parse(data.data);
 
@@ -195,6 +194,23 @@ export class MiscComponent implements OnInit {
     }
   }
 
+  selectEvent(data) {
+    const start = new Date(data.from);
+    let end = null;
+    if (data.to && data.to !== data.from) {
+      end = new Date(data.to);
+    }
+    this.selectedEvent = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      startDate: start,
+      endDate: end,
+      buildingId: data.buildingId,
+      clusterId: data.cluster,
+    };
+  }
+
 
   editMetaDialog(): void {
 
@@ -207,6 +223,20 @@ export class MiscComponent implements OnInit {
     this.modalService.create({
       nzTitle: 'Add Additional Metadata',
       nzContent: AddMetadataComponent
+    });
+  }
+
+  editEventDialog(): void {
+
+  }
+
+  deleteEventDialog(): void {
+  }
+
+  addEventDialog(): void {
+    this.modalService.create({
+      nzTitle: 'Add Evnet',
+      nzContent: AddEventComponent
     });
   }
 }
