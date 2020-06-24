@@ -3,14 +3,6 @@ import * as Highcharts from 'highcharts';
 import StockModule from 'highcharts/modules/stock';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 
-import { MatDialog, MatDialogModule, MatDialogConfig } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule} from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-
 import {AdditionalMetadata} from '../../model/additional-metadata';
 
 StockModule(Highcharts);

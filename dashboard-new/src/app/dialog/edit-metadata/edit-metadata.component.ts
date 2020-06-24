@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-edit-metadata',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edit-metadata.component.css']
 })
 export class EditMetadataComponent implements OnInit {
-
-  constructor() { }
+ 
+  
+  constructor(private modal: NzModalRef) { }
 
   ngOnInit() {
   }
 
+  destroyModal(): void {
+    this.modal.destroy();
+  }
+ 
 }

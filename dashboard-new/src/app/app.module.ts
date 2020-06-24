@@ -7,6 +7,7 @@ import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -16,19 +17,16 @@ import en from '@angular/common/locales/en';
 
 import { HighchartsChartModule } from 'highcharts-angular';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule} from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatNativeDateModule } from '@angular/material/core';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatGridListModule} from '@angular/material/grid-list';
-import { MatDialogModule} from '@angular/material/dialog';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+
 
 import { HomeComponent } from './pages/home/home.component';
 import { MiscComponent } from './pages/misc/misc.component';
@@ -76,22 +74,18 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     HighchartsChartModule,
     NzGridModule,
-    MatToolbarModule,
-    HttpClientModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
+    HttpClientModule,  
     HighchartsChartModule,
-    MatDialogModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule,
-    MatGridListModule,
     NzDropDownModule,
-    NzSelectModule 
+    NzSelectModule,
+    NzButtonModule,
+    NzFormModule,
+    NzInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzDatePickerModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, NzModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,7 +2,6 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import StockModule from 'highcharts/modules/stock';
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { MatDialog, MatDialogModule, MatDialogConfig } from '@angular/material/dialog';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 import {AddSensorsComponent} from '../../dialog/add-sensors/add-sensors.component';
@@ -92,7 +91,7 @@ export class MiscComponent implements OnInit {
       }
     }
   };
-  constructor(private sensorService: SensorService, public dialog: MatDialog) { }
+  constructor(private sensorService: SensorService) { }
 
   ngOnInit(){
     this.sensorService.getSensorsByBuilding(this.buildingID).subscribe((data) => {

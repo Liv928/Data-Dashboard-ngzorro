@@ -2,11 +2,19 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import StockModule from 'highcharts/modules/stock';
 import { NzGridModule } from 'ng-zorro-antd/grid'
-import { MatDialog, MatDialogModule, MatDialogConfig } from '@angular/material/dialog';
+
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 import {AdditionalMetadata} from '../../model/additional-metadata';
 import { SensorService } from '../../services/sensor.service';
+
+import {AddMetadataComponent} from '../../dialog/add-metadata/add-metadata.component';
+
+
+
 StockModule(Highcharts);
 
 Highcharts.setOptions({
@@ -26,14 +34,19 @@ Highcharts.setOptions({
 export class WssbComponent implements OnInit {
 
   public buildingID = 'WSSB';
+  
   public isCollapsed = false;
   public Highcharts = Highcharts;
   public updateFromInput = true;
   public chartOptions;
+  
   public sensors: [];
   public selectedSensor = {id:''};
+  
   public sensorData;
   public seriesData: [];
+  public timestamps = [];
+  public datapoint = [];
 
   public events = [];
   public eventDetails = {};
@@ -41,8 +54,8 @@ export class WssbComponent implements OnInit {
   public additionalMetadata: AdditionalMetadata[] = [];
   public selectedMeta: AdditionalMetadata;
 
-  public timestamps = [];
-  public datapoint = [];
+
+  
 
   plotBandEvents = {
     click(e) {
@@ -87,7 +100,8 @@ export class WssbComponent implements OnInit {
       }
     }
   };
-  constructor(private sensorService: SensorService, public dialog: MatDialog) { }
+
+  constructor(private sensorService: SensorService, private modalService: NzModalService) { }
 
   ngOnInit(){
     this.sensorService.getSensorsByBuilding(this.buildingID).subscribe((data) => {
@@ -103,9 +117,6 @@ export class WssbComponent implements OnInit {
           color: 'red',
         }
       },
-      rangeSelector: {
-        selected: 2
-      },
       title: {text: 'Sensor Data'},
       series: [{
         showInLegend: true,
@@ -114,19 +125,19 @@ export class WssbComponent implements OnInit {
         tooltip: {
           valueDecimals: 2
         },
-        data:[]
+        data:this.datapoint
       }],
       yAxis: {
-        opposite: false,
-        title: {}
+
+        title: {text:'Degrees Celsius'}
       },
       xAxis: {
-        type: 'datetime',
+        categories: this.timestamps,
+        type: 'date',
         dateTimeLabelFormats: {
-            hour: '%H:%M'
+            day:'%b.%e'
         },
-        minRange: 1000,
-        minTickInterval: 1000 
+        TickInterval: 1 
       }
     }
   };
@@ -159,6 +170,7 @@ export class WssbComponent implements OnInit {
     });
   }
 
+  // helper function to push events into events lis
   addEvent(data): void {
     const start = new Date(data.startDate);
     let endtime: number;
@@ -182,6 +194,26 @@ export class WssbComponent implements OnInit {
     this.updateFromInput = true;
   }
 
+  selectMeta(data) {
+    this.selectedMeta = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      sensorId: data.sensorId
+    }
+  }
 
+  editMetaDialog(): void {
 
+  }
+
+  deleteMetaDialog(): void {
+  }
+
+  addMetaDialog(): void {
+    this.modalService.create({
+      nzTitle: 'Add Additional Metadata',
+      nzContent: AddMetadataComponent
+    });
+  }
 }
