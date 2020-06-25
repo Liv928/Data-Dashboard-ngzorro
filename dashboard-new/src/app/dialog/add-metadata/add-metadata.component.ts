@@ -13,67 +13,41 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 export class AddMetadataComponent implements OnInit {
   public metaTitle = '';
   public metaDescription = '';
-  public errorMessage = '';
-
-  validateForm: FormGroup;
+  public metaDate;
+  public metaComment = '';
+  
+  addMetaForm: FormGroup;
 
   constructor(private modal: NzModalRef, private fb: FormBuilder) {
-    this.validateForm = this.fb.group({
-      userName: ['', [Validators.required], [this.userNameAsyncValidator]],
-      email: ['', [Validators.required]],
-      comment: ['', [Validators.required]]
+    this.addMetaForm = this.fb.group({
+      metaTitle: ['', [Validators.required]],
+      metaDescription: ['', [Validators.required]],
     });
+    
    }
 
-   submitForm(value: { userName: string; email: string; confirm: string; comment: string }): void {
-    for (const key in this.validateForm.controls) {
-      this.validateForm.controls[key].markAsDirty();
-      this.validateForm.controls[key].updateValueAndValidity();
+   ngOnInit (){
+  }
+
+   submitForm(value: { title: string; desc: string}): void {
+     
+    for (const key in this.addMetaForm.controls) {
+      this.addMetaForm.controls[key].markAsDirty();
+      this.addMetaForm.controls[key].updateValueAndValidity();
     }
-    console.log(value);
+    console.log('submit title1: ' + value.title);
+    console.log('submit title2: ' + this.addMetaForm.value.metaTitle);
+    const data = {metaTitle: this.addMetaForm.value.metaTitle, metaDescription: this.addMetaForm.value.metaDescription};
+    this.modal.destroy(data);
   }
 
   resetForm(e: MouseEvent): void {
     e.preventDefault();
-    this.validateForm.reset();
-    for (const key in this.validateForm.controls) {
-      this.validateForm.controls[key].markAsPristine();
-      this.validateForm.controls[key].updateValueAndValidity();
+    this.addMetaForm.reset();
+    for (const key in this.addMetaForm.controls) {
+      this.addMetaForm.controls[key].markAsPristine();
+      this.addMetaForm.controls[key].updateValueAndValidity();
     }
-  }
-
-  validateConfirmPassword(): void {
-    setTimeout(() => this.validateForm.controls.confirm.updateValueAndValidity());
-  }
-
-  userNameAsyncValidator = (control: FormControl) =>
-    new Observable((observer: Observer<ValidationErrors | null>) => {
-      setTimeout(() => {
-        if (control.value === 'JasonWood') {
-          // you have to return `{error: true}` to mark it as an error event
-          observer.next({ error: true, duplicated: true });
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, 1000);
-    });
-
-  confirmValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { error: true, required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
-
-
-  ngOnInit() {
-  }
-
-  add(): void {
-
   }
 
   close(): void {

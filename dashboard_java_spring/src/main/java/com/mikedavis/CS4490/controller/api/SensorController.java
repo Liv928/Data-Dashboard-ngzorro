@@ -30,6 +30,7 @@ public class SensorController {
 
     @RequestMapping(path = "/sensor/addmetadata", method = RequestMethod.POST)
     public ResponseEntity<String> additionalMetadata(@RequestBody AdditionalMetadata additionalMetadata){
+        System.out.println("add meta title: " + additionalMetadata.getTitle());
         sensorService.insertAdditionalMetadata(additionalMetadata);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

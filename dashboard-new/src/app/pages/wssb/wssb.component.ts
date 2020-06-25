@@ -4,7 +4,7 @@ import StockModule from 'highcharts/modules/stock';
 import { NzGridModule } from 'ng-zorro-antd/grid'
 
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
@@ -233,10 +233,27 @@ export class WssbComponent implements OnInit {
   }
 
   addMetaDialog(): void {
-    this.modalService.create({
+    const modalRef = this.modalService.create({
       nzTitle: 'Add Additional Metadata',
-      nzContent: AddMetadataComponent
+      nzContent: AddMetadataComponent,
     });
+
+    modalRef.afterClose.subscribe(
+      result =>{
+        modalRef.close();
+        if (result) {
+          const addMetadata: AdditionalMetadata = {
+            id: null,
+            title: result.metaTitle,
+            description: result.metaDescription,
+            sensorId: this.selectedSensor.id
+          };
+          this.sensorService.saveAdditionalMetadata(addMetadata).subscribe((response) => {
+            this.additionalMetadata.push(addMetadata);
+          });
+        }
+      }
+    )
   }
 
   editEventDialog(): void {
@@ -247,9 +264,31 @@ export class WssbComponent implements OnInit {
   }
 
   addEventDialog(): void {
-    this.modalService.create({
+    const modalRef = this.modalService.create({
       nzTitle: 'Add Evnet',
       nzContent: AddEventComponent
     });
+    /*
+    modalRef.afterClose.subscribe(
+      result =>{
+        modalRef.close();
+        if (result) {
+          const addevent: Event = {
+            id: null,
+            title: 
+            description: string;
+            startDate: Date;
+            endDate: Date;
+            buildingId: string;
+            clusterId: number;
+          };
+          this.sensorService.saveEvent(addevent).subscribe((response) => {
+            this.events.push(addevent);
+          });
+        }
+      }
+    )
+*/
   }
+
 }

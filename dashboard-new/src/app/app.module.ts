@@ -26,7 +26,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 import { HomeComponent } from './pages/home/home.component';
 import { MiscComponent } from './pages/misc/misc.component';
@@ -83,7 +83,8 @@ registerLocaleData(en);
     NzInputModule,
     FormsModule,
     ReactiveFormsModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    NzRadioModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, NzModalService],
   bootstrap: [AppComponent]

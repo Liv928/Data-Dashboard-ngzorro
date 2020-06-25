@@ -44,15 +44,23 @@
         <nz-date-picker nzShowTime formControlName="endDate"></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
-
+    
     <nz-form-item>
-      <nz-form-label [nzSpan]="7">Cluster (optional)</nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <nz-select [(ngModel)]="selectedCluster" nzAllowClear nzPlaceHolder="Select a cluster">
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Cluster</nz-form-label>
+      <nz-form-control [nzSm]="16" [nzXs]="24">
+        <nz-select formControlName="cluster" nzPlaceHolder="Select a cluster">
           <nz-option *ngFor="let cluster of clusters" [nzValue]="cluster" [nzLabel]="cluster"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
+   
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired></nz-form-label>
+      <nz-form-control [nzSm]="16" [nzXs]="24">
+        <label nz-radio formControlName="isglobal">Global Event?</label>
+      </nz-form-control>
+    </nz-form-item>
+
     <nz-form-item>
       <nz-form-control [nzOffset]="7" [nzSpan]="12">
         <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
@@ -60,5 +68,12 @@
       </nz-form-control>
     </nz-form-item>
   </form>
+  <!---
+  <nz-select [(ngModel)]="selectedCluster" nzAllowClear nzPlaceHolder="Select a cluster">
+    <nz-option *ngFor="let cluster of clusters" [nzValue]="cluster" [nzLabel]="cluster"></nz-option>
+  </nz-select>
+  
+
+  -->
 </div>
 

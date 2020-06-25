@@ -11,7 +11,7 @@ import { Observable, Observer } from 'rxjs';
 export class AddEventComponent implements OnInit {
 
   public buildings = [];
-  public clusters = [];
+  public clusters = ['test A'];
   
   public eventTitle = '';
   public eventDescription = '';
@@ -25,9 +25,12 @@ export class AddEventComponent implements OnInit {
 
   constructor(private modal: NzModalRef, private fb: FormBuilder) {
     this.validateForm = this.fb.group({
-      userName: ['', [Validators.required], [this.userNameAsyncValidator]],
-      email: ['', [Validators.required]],
-      comment: ['', [Validators.required]]
+      eventTitle: ['', [Validators.required]],
+      eventDescription: ['', [Validators.required]],
+      startDate: [null, [Validators.required]],
+      endDate: [null],
+      cluster: [''],
+      isglobal: [Boolean, [Validators.required]]
     });
    }
 
@@ -38,12 +41,13 @@ export class AddEventComponent implements OnInit {
     this.modal.destroy();
   }
 
-  submitForm(value: { userName: string; email: string; confirm: string; comment: string }): void {
+  submitForm(value: { eventTitle: string; eventDescription: string; startDate: Date; endDate: Date, cluster: string }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
     console.log(value);
+    console.log('g: ' + this.isGlobal + 'cluster: ' + this.selectedCluster);
   }
 
   resetForm(e: MouseEvent): void {
@@ -54,31 +58,5 @@ export class AddEventComponent implements OnInit {
       this.validateForm.controls[key].updateValueAndValidity();
     }
   }
-
-  validateConfirmPassword(): void {
-    setTimeout(() => this.validateForm.controls.confirm.updateValueAndValidity());
-  }
-
-  userNameAsyncValidator = (control: FormControl) =>
-    new Observable((observer: Observer<ValidationErrors | null>) => {
-      setTimeout(() => {
-        if (control.value === 'JasonWood') {
-          // you have to return `{error: true}` to mark it as an error event
-          observer.next({ error: true, duplicated: true });
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, 1000);
-    });
-
-  confirmValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { error: true, required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
 
 }

@@ -61,7 +61,6 @@ public class SensorLogServiceImpl implements SensorLogService {
 
     // add JSONData ["timestamp", "data point"] to an existed jsonArray
     public void addJSONDataByID(String id, String date, List<JSONArray> jsonArray){
-        System.out.println("addJSON-id: "+id+" date: "+date);
         List<DBObject> sensorLogDoc = mongoTemplate.find(new Query(Criteria.where("_id").is(id + "628-" + date)), DBObject.class, "3357");
 
         SimpleDateFormat simpleDateFormat = new  SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -71,7 +70,7 @@ public class SensorLogServiceImpl implements SensorLogService {
         for(DBObject object : sensorLogDoc){
             for(String key : object.keySet()){
                 if(key.matches("^\\d{2}:\\d{2}:\\d{2}$")){
-                    System.out.println("key-"+key+" matches");
+
                     JSONArray dataPoint = new JSONArray();
                     String start = date + " " + key;
                     try{
