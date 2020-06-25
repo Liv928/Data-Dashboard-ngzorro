@@ -45,6 +45,7 @@ export class WssbComponent implements OnInit {
   public Highcharts = Highcharts;
   public updateFromInput = true;
   public chartOptions;
+  public chartOptions_2;
   
   public sensors: [];
   public selectedSensor = {id:''};
@@ -125,6 +126,7 @@ export class WssbComponent implements OnInit {
       series: [{
         showInLegend: true,
         type: 'line',
+        
         name: '',
         tooltip: {
           valueDecimals: 2
@@ -144,6 +146,66 @@ export class WssbComponent implements OnInit {
         TickInterval: 1 
       }
     }
+
+    this.chartOptions_2 = {
+      chart: {
+        type: 'scatter',
+        zoomType: 'xy'
+      },
+      legend: {
+        layout: 'vertical',
+        align: 'left',
+        verticalAlign: 'middle',
+        itemHoverStyle: {
+          color: 'red',
+        }
+      },
+      title: {text: 'Temperature Sensor Data'},
+      series: [{
+        name: '',
+        tooltip: {
+          valueDecimals: 2
+        },
+        data:this.datapoint
+      }],
+      yAxis: {
+
+        title: {text:'Degrees Celsius'}
+      },
+      xAxis: {
+        categories: this.timestamps,
+        type: 'date',
+        dateTimeLabelFormats: {
+            day:'%b.%e'
+        },
+        TickInterval: 1 
+      },
+      plotOptions: {
+        scatter: {
+          marker: {
+            radius: 5,
+            states: {
+              hover: {
+                enabled: true,
+                lineColor: 'rgb(100,100,100)'
+              }
+            }
+          },
+          states: {
+            hover: {
+              marker: {
+                enabled: false
+              }
+            }
+          },
+          tooltip: {
+            headerFormat: '<b>{series.name}</b><br>',
+            pointFormat: '{point.x} date, {point.y} degree'
+          }
+        }
+      },
+    }
+
   };
 
 
