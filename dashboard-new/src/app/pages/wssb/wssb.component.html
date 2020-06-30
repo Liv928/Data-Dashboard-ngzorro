@@ -85,6 +85,20 @@
       <button nz-button nzType="primary" (click)="addEventDialog()">
         <span>Add Event</span>
       </button>
+
+      <div *ngIf= "selectedEvent">
+        <p>Description: {{selectedEvent.description}}</p>
+        <p>Start Date: {{selectedEvent.startDate}}</p>
+        <p>End Date: {{selectedEvent.endDate}}</p>
+        <div class="meta-functions">       
+          <button nz-button nzType="primary" (click)="editEventDialog()">
+            <span>Edit</span>
+          </button>  
+          <button nz-button nzType="primary" (click)="deleteEventDialog()">
+            <span>Delete</span>
+          </button> 
+        </div>
+      </div>
     
     </div>
   </div>

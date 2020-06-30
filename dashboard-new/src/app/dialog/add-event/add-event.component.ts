@@ -29,8 +29,8 @@ export class AddEventComponent implements OnInit {
       eventDescription: ['', [Validators.required]],
       startDate: [null, [Validators.required]],
       endDate: [null],
-      cluster: [''],
-      isglobal: [Boolean, [Validators.required]]
+      clusterId: [null],
+      isGlobal: [false, [Validators.required]]
     });
    }
 
@@ -41,13 +41,20 @@ export class AddEventComponent implements OnInit {
     this.modal.destroy();
   }
 
-  submitForm(value: { eventTitle: string; eventDescription: string; startDate: Date; endDate: Date, cluster: string }): void {
+  submitForm(value: { eventTitle: string; eventDescription: string; startDate: Date; endDate: Date, clusterId: string, isGlobal: Boolean }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
     console.log(value);
-    console.log('g: ' + this.isGlobal + 'cluster: ' + this.selectedCluster);
+    
+    const data = {eventTitle: value.eventTitle, 
+                  eventDescription: value.eventDescription, 
+                  startDate: value.startDate, 
+                  endDate: value.endDate,
+                  clusterId: value.clusterId};
+    console.log('value g: ' + value.isGlobal + 'cluster: ' + value.clusterId);
+    this.modal.destroy(data);
   }
 
   resetForm(e: MouseEvent): void {

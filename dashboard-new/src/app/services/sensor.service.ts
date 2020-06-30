@@ -39,6 +39,7 @@ export class SensorService {
 
   // add function
   public saveEvent(data: Event): Observable<any> {
+    console.log('data: '+ data.title);
     return this.httpClient.post<Event>(this.apiURL + 'events/add', data);
   }
 

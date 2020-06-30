@@ -46,9 +46,9 @@
     </nz-form-item>
     
     <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Cluster</nz-form-label>
+      <nz-form-label [nzSm]="8" [nzXs]="24">Cluster</nz-form-label>
       <nz-form-control [nzSm]="16" [nzXs]="24">
-        <nz-select formControlName="cluster" nzPlaceHolder="Select a cluster">
+        <nz-select formControlName="clusterId" nzPlaceHolder="Select a cluster">
           <nz-option *ngFor="let cluster of clusters" [nzValue]="cluster" [nzLabel]="cluster"></nz-option>
         </nz-select>
       </nz-form-control>
@@ -57,7 +57,7 @@
     <nz-form-item>
       <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired></nz-form-label>
       <nz-form-control [nzSm]="16" [nzXs]="24">
-        <label nz-radio formControlName="isglobal">Global Event?</label>
+        <label nz-radio formControlName="isGlobal">Global Event?</label>
       </nz-form-control>
     </nz-form-item>
 
@@ -68,12 +68,6 @@
       </nz-form-control>
     </nz-form-item>
   </form>
-  <!---
-  <nz-select [(ngModel)]="selectedCluster" nzAllowClear nzPlaceHolder="Select a cluster">
-    <nz-option *ngFor="let cluster of clusters" [nzValue]="cluster" [nzLabel]="cluster"></nz-option>
-  </nz-select>
-  
-
-  -->
+ 
 </div>
 

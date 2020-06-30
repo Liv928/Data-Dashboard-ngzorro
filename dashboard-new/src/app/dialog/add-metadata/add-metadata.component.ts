@@ -35,8 +35,7 @@ export class AddMetadataComponent implements OnInit {
       this.addMetaForm.controls[key].markAsDirty();
       this.addMetaForm.controls[key].updateValueAndValidity();
     }
-    console.log('submit title1: ' + value.title);
-    console.log('submit title2: ' + this.addMetaForm.value.metaTitle);
+    
     const data = {metaTitle: this.addMetaForm.value.metaTitle, metaDescription: this.addMetaForm.value.metaDescription};
     this.modal.destroy(data);
   }

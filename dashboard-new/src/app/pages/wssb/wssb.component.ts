@@ -19,6 +19,7 @@ import {EditEventComponent} from '../../dialog/edit-event/edit-event.component';
 import {AddMetadataComponent} from '../../dialog/add-metadata/add-metadata.component';
 import {DeleteMetadataComponent} from '../../dialog/delete-metadata/delete-metadata.component';
 import {EditMetadataComponent} from '../../dialog/edit-metadata/edit-metadata.component';
+import { ResourceLoader } from '@angular/compiler';
 
 
 StockModule(Highcharts);
@@ -162,6 +163,7 @@ export class WssbComponent implements OnInit {
       },
       title: {text: 'Temperature Sensor Data'},
       series: [{
+        color: 'rgb(233,83,83)',
         name: '',
         tooltip: {
           valueDecimals: 2
@@ -187,7 +189,7 @@ export class WssbComponent implements OnInit {
             states: {
               hover: {
                 enabled: true,
-                lineColor: 'rgb(100,100,100)'
+                lineColor: 'rgb(250,100,100)'
               }
             }
           },
@@ -219,7 +221,6 @@ export class WssbComponent implements OnInit {
       this.seriesData = JSON.parse(data.data);
 
       for (let i =0; i<this.seriesData.length; i++){
-        console.log("i: " + i + "temp[i]: " + this.seriesData[i][1]);
       
         this.timestamps.push(this.seriesData[i][0]);
         this.datapoint.push(this.seriesData[i][1]);
@@ -330,27 +331,29 @@ export class WssbComponent implements OnInit {
       nzTitle: 'Add Evnet',
       nzContent: AddEventComponent
     });
-    /*
+    
     modalRef.afterClose.subscribe(
       result =>{
         modalRef.close();
         if (result) {
-          const addevent: Event = {
+          const addEvent: Event = {
             id: null,
-            title: 
-            description: string;
-            startDate: Date;
-            endDate: Date;
-            buildingId: string;
-            clusterId: number;
+            title: result.eventTitle,
+            description: result.eventDescription,
+            startDate: result.startDate,
+            endDate: result.endDate,
+            buildingId: this.buildingID,
+            clusterId: result.clusterId,
+            isGlobal: result.isGloble,
           };
-          this.sensorService.saveEvent(addevent).subscribe((response) => {
-            this.events.push(addevent);
+          console.log('result: ' + addEvent.title);
+          this.sensorService.saveEvent(addEvent).subscribe((response) => {
+            this.events.push(addEvent);
           });
         }
       }
     )
-*/
+
   }
 
 }
