@@ -6,5 +6,5 @@ export class Event {
   endDate: Date;
   buildingId: string;
   clusterId: number;
-  isGlobal: string;
+  isGlobal: boolean;
 }

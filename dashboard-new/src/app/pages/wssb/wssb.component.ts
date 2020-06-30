@@ -333,7 +333,9 @@ export class WssbComponent implements OnInit {
     });
     
     modalRef.afterClose.subscribe(
+      
       result =>{
+        console.log('here');
         modalRef.close();
         if (result) {
           const addEvent: Event = {
@@ -344,9 +346,9 @@ export class WssbComponent implements OnInit {
             endDate: result.endDate,
             buildingId: this.buildingID,
             clusterId: result.clusterId,
-            isGlobal: result.isGloble,
+            isGlobal: result.isGlobal,
           };
-          console.log('result: ' + addEvent.title);
+          console.log('result: ' + addEvent.isGlobal);
           this.sensorService.saveEvent(addEvent).subscribe((response) => {
             this.events.push(addEvent);
           });

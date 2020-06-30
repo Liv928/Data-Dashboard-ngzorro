@@ -39,7 +39,7 @@ export class SensorService {
 
   // add function
   public saveEvent(data: Event): Observable<any> {
-    console.log('data: '+ data.title);
+    console.log('data: '+ data.title + 'isGlobal: ' + data.isGlobal);
     return this.httpClient.post<Event>(this.apiURL + 'events/add', data);
   }
 
