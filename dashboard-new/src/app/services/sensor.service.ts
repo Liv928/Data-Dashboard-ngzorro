@@ -48,11 +48,11 @@ export class SensorService {
   }
 
   // delete function
-  public deleteEvent(title: string): Observable<any> {
-    return this.httpClient.delete(this.apiURL + 'events/delete?title=' + title);
+  public deleteEvent(id: number): Observable<any> {
+    return this.httpClient.delete(this.apiURL + 'events/delete?id=' + id);
   }
 
-  public deleteMeta(title: string): Observable<any> { 
+  public deleteMeta(id: number): Observable<any> { 
     return this.httpClient.delete(this.apiURL + 'sensors/sensor/deletemetadata?title=' + title);
   }
 

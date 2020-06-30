@@ -27,6 +27,10 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
+import { IconDefinition } from '@ant-design/icons-angular';
+import * as AllIcons from '@ant-design/icons-angular/icons';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 import { HomeComponent } from './pages/home/home.component';
 import { MiscComponent } from './pages/misc/misc.component';
@@ -45,6 +49,11 @@ import { AddSensorsComponent } from './dialog/add-sensors/add-sensors.component'
 
 
 registerLocaleData(en);
+
+const antDesignIcons = AllIcons as {
+  [key: string]: IconDefinition;
+};
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
 
 @NgModule({
   declarations: [
@@ -84,9 +93,10 @@ registerLocaleData(en);
     FormsModule,
     ReactiveFormsModule,
     NzDatePickerModule,
-    NzRadioModule
+    NzRadioModule,
+    NzPopconfirmModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, NzModalService],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, NzModalService, { provide: NZ_ICONS, useValue: icons }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,12 +1,9 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import StockModule from 'highcharts/modules/stock';
-import { NzGridModule } from 'ng-zorro-antd/grid'
 
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+
 
 import {Event} from '../../model/event';
 import {AdditionalMetadata} from '../../model/additional-metadata';
@@ -108,7 +105,7 @@ export class WssbComponent implements OnInit {
     }
   };
 
-  constructor(private sensorService: SensorService, private modalService: NzModalService) { }
+  constructor(private sensorService: SensorService, private modalService: NzModalService, private modal: NzModalService) { }
 
   ngOnInit(){
     this.sensorService.getSensorsByBuilding(this.buildingID).subscribe((data) => {
@@ -284,7 +281,8 @@ export class WssbComponent implements OnInit {
       startDate: start,
       endDate: end,
       buildingId: data.buildingId,
-      clusterId: data.cluster,
+      clusterId: data.clusterId,
+      isGlobal: data.isGlobal
     };
   }
 
@@ -324,6 +322,20 @@ export class WssbComponent implements OnInit {
   }
 
   deleteEventDialog(): void {
+    const modalRef = this.modalService.create({
+      nzTitle: 'Delete this Evnet',
+      nzContent: DeleteEventComponent,
+      nzComponentParams: { deleteEvent: this.selectedEvent},
+    });
+    modalRef.afterClose.subscribe(
+      result =>{
+        if (result){
+          this.sensorService.deleteEvent(this.selectedEvent.id).subscribe((response) => {
+            this.events = this.events.filter(item => item !== this.selectedEvent);
+          });
+        }
+      }
+    );
   }
 
   addEventDialog(): void {
@@ -331,10 +343,8 @@ export class WssbComponent implements OnInit {
       nzTitle: 'Add Evnet',
       nzContent: AddEventComponent
     });
-    
     modalRef.afterClose.subscribe(
-      
-      result =>{
+      result => {
         console.log('here');
         modalRef.close();
         if (result) {
@@ -355,7 +365,20 @@ export class WssbComponent implements OnInit {
         }
       }
     )
-
   }
+
+  showConfirm(): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure to delete this event ?',
+      nzContent: '<b></b>',
+      nzOkText: 'Confirm',
+      nzOkType: 'danger',
+      nzOnOk: () => {this.sensorService.deleteEvent(this.selectedEvent.id).subscribe((response) => {
+                      this.events = this.events.filter(item => item !== this.selectedEvent);
+                      })
+                    }
+    });
+  }
+
 
 }

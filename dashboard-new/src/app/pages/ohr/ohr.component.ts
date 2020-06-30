@@ -206,6 +206,7 @@ export class OhrComponent implements OnInit {
       endDate: end,
       buildingId: data.buildingId,
       clusterId: data.cluster,
+      isGlobal: data.isGlobal
     };
   }
 
