@@ -9,7 +9,7 @@ public interface EventService {
 
     public void addEvent(Event event);
 
-    public void deleteEvent(String eventTitle);
+    public void deleteEvent(int id);
 
     public void updateEvent(Event event);
 }

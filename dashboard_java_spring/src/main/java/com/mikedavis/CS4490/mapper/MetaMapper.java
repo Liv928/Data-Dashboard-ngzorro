@@ -11,9 +11,11 @@ public interface MetaMapper {
             @Result(property = "id", column = "id"),
             @Result(property = "title", column = "title"),
             @Result(property = "description", column = "description"),
+            @Result(property = "addedDate", column = "added_date"),
+            @Result(property = "dataPoint", column = "data_point"),
             @Result(property = "sensorId", column = "sensor_id")
     })
-    @Insert("INSERT INTO AdditionalMetadata(title, description, sensor_id) VALUES (#{title}, #{description}, #{sensorId})")
+    @Insert("INSERT INTO AdditionalMetadata(title, description, sensor_id, data_point, added_date) VALUES (#{title}, #{description}, #{sensorId}, #{dataPoint}, #{addedDate})")
     void insertAdditionalMetadata(AdditionalMetadata metadata);
 
     @Select("SELECT * FROM AdditionalMetadata WHERE sensor_id = #{sensorId}")

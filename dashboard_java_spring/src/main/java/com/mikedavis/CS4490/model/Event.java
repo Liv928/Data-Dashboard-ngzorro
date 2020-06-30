@@ -15,4 +15,5 @@ public class Event {
     private Date endDate;
     private String buildingId;
     private String clusterId;
+    private Boolean isGlobal;
 }

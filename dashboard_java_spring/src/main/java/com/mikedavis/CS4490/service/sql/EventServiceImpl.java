@@ -23,8 +23,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void deleteEvent(String eventTitle){
-        eventMapper.deleteEvent(eventTitle);
+    public void deleteEvent(int id){
+        eventMapper.deleteEvent(id);
     }
 
     @Override

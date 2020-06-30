@@ -19,6 +19,7 @@ public class EventController {
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     public ResponseEntity<String> addEvent(@RequestBody Event event){
+        System.out.println("add-event: "+ event.getTitle() + " isGlobal: " + event.getIsGlobal());
         eventService.addEvent(event);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -29,8 +30,9 @@ public class EventController {
     }
 
     @RequestMapping(path = "/delete", method = RequestMethod.DELETE)
-    public void deleteEvent(@RequestParam String title){
-        eventService.deleteEvent(title);
+    public void deleteEvent(@RequestParam int id){
+        System.out.println("delete-event: "+ id);
+        eventService.deleteEvent(id);
     }
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
