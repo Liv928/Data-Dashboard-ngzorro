@@ -53,7 +53,7 @@ export class SensorService {
   }
 
   public deleteMeta(id: number): Observable<any> { 
-    return this.httpClient.delete(this.apiURL + 'sensors/sensor/deletemetadata?title=' + title);
+    return this.httpClient.delete(this.apiURL + 'sensors/sensor/deletemetadata?id=' + id);
   }
 
   // edit function
@@ -64,4 +64,5 @@ export class SensorService {
   public updateEvent(data: Event): Observable<any> {
     return this.httpClient.post<Event>(this.apiURL + 'events/update', data);
   }
+  
 }

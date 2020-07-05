@@ -44,8 +44,8 @@ public class SensorServiceImpl implements SensorService{
 
     //user delete metadata
     @Override
-    public void deleteAdditionalMetadata(String metaTitle){
-        metaMapper.deleteMeta(metaTitle);
+    public void deleteAdditionalMetadata(int id){
+        metaMapper.deleteMeta(id);
     }
 
     //user edit metadata

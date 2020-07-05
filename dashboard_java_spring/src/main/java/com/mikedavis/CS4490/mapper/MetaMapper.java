@@ -21,8 +21,8 @@ public interface MetaMapper {
     @Select("SELECT * FROM AdditionalMetadata WHERE sensor_id = #{sensorId}")
     List<AdditionalMetadata> getAdditionalMetadata(String sensorId);
 
-    @Delete("DELETE FROM AdditionalMetadata WHERE title = #{metaTitle}")
-    void deleteMeta(String metaTitle);
+    @Delete("DELETE FROM AdditionalMetadata WHERE id = #{id}")
+    void deleteMeta(int id);
 
     @Update("UPDATE AdditionalMetadata SET title = #{title}, description = #{description} WHERE id = #{id}")
     void updateMeta(AdditionalMetadata metadata);

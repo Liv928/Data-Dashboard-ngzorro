@@ -31,6 +31,7 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 import { HomeComponent } from './pages/home/home.component';
 import { MiscComponent } from './pages/misc/misc.component';
@@ -94,7 +95,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     ReactiveFormsModule,
     NzDatePickerModule,
     NzRadioModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NzCollapseModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, NzModalService, { provide: NZ_ICONS, useValue: icons }],
   bootstrap: [AppComponent]

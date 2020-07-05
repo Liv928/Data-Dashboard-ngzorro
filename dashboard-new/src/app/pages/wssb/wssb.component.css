@@ -3,3 +3,23 @@
   background: #ebebeb;
   margin: 20px;
 }
+
+.gutter-row-chart{
+  margin: 20px;
+}
+
+.button-add{
+  margin: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button-function{
+  margin: 10px;
+  width: 80px;
+}
+
+.selector{
+  margin: 20px;
+}

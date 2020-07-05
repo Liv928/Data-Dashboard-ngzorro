@@ -16,7 +16,7 @@ public interface SensorService {
 
     public void insertAdditionalMetadata(AdditionalMetadata additionalMetadata);
 
-    public void deleteAdditionalMetadata(String metaTitle);
+    public void deleteAdditionalMetadata(int id);
 
     public void updateAdditionalMetadata(AdditionalMetadata additionalMetadata);
 }

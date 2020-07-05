@@ -1,6 +1,6 @@
 <h1>Western Student Service Building Data</h1>
-
-    <nz-select
+    <h3>To begin, select a sensor first</h3>
+    <nz-select class="selector"
       [(ngModel)]="selectedSensor"
       (ngModelChange)="selectSensor($event)"
       nzAllowClear
@@ -8,99 +8,78 @@
     >
       <nz-option *ngFor="let sensor of sensors" [nzValue]="sensor" [nzLabel]="sensor.name"></nz-option>
     </nz-select>
-   
-<p>{{selectedSensor.id}}</p>
 
-<div nz-row nzGutter="16">
-  <div nz-col class="gutter-row" nzSpan="12">
+    <nz-select class="selector"
+      [(ngModel)]="selectedChart"
+      (ngModelChange)="selectChart($event)"
+      nzAllowClear
+      nzPlaceHolder="Select a chart"
+    >
+      <nz-option *ngFor="let chart of charts" [nzValue]="chart" [nzLabel]="chart.chartName"></nz-option>
+    </nz-select>
+
+<div nz-row nzGutter="8">
+  <div nz-col class="gutter-row-chart">
     <div class="gutter-box-chart">
       <highcharts-chart
       [Highcharts]="Highcharts"
       [constructorType]="'stockChart'"
-      [options]="chartOptions"
+      [options]="chartOption"
       [oneToOne]=true
       [(update)]="updateFromInput"
-      style="width: 550px; height:400px; display:block;"
-      ></highcharts-chart>
-    </div>
-  </div>
-  <div nz-col class="gutter-row" nzSpan="12">
-    <div class="gutter-box-chart">
-      <highcharts-chart
-      [Highcharts]="Highcharts"
-      [constructorType]="'stockChart'"
-      [options]="chartOptions_2"
-      [oneToOne]=true
-      [(update)]="updateFromInput"
-      style="width:550px; height:400px; display:block;"
+      style="width: 100%; height:100%; display:block;"
       ></highcharts-chart>
     </div>
   </div>
 </div>
 
-<p>datapoint: {{datapoint}}</p>
-<p>timestamps: {{timestamps[1]}}</p>
-
 <!--Metadata List-->
 <div nz-row nzGutter="16">
   <div nz-col class="gutter-row" nzSpan="12">
      <h3 style="text-align:center;">Additional Metadata</h3>
-     <div *ngIf="additionalMetadata">
-      <a *ngFor="let addedMetadata of additionalMetadata">
-        <li (click)="selectMeta(addedMetadata)">
-          {{addedMetadata.title}}
-        </li>
-      </a>
-    
-      <button nz-button nzType="primary" (click)="addMetaDialog()">
-        <span>Add Additional Metadata</span>
-      </button>
-    
-      <div *ngIf= "selectedMeta">
-        <p>{{selectedMeta.description}}</p>
-        <div class="meta-functions">       
-          <button nz-button nzType="primary" (click)="editMetaDialog()">
+     
+      <nz-collapse *ngIf="additionalMetadata" >
+        <nz-collapse-panel *ngFor="let Metadata of additionalMetadata" [nzHeader]="Metadata.title" [nzActive]="false">
+          <p style="margin:0;">
+            {{Metadata.description}}
+          </p>
+          <div style="text-align:center">
+          <button nz-button class="button-function" nzType="primary" (click)="editMetaDialog()">
             <span>Edit</span>
           </button>  
-          <button nz-button nzType="primary" (click)="deleteMetaDialog()">
-            <span>Delete</span>
-          </button> 
+          <button nz-button class="button-function" nzType="primary" (click)="deleteMetaConfirm(Metadata)">Delete</button>  
         </div>
-      </div>
-    </div>
-  
+        </nz-collapse-panel>
+      </nz-collapse>
+    
+      <button nz-button class="button-add" nzType="primary" (click)="addMetaDialog()">
+        <span>Add Additional Metadata</span>
+      </button>
+
   </div>
 
   <!--Event List for current buildings-->
   <div nz-col class="gutter-row" nzSpan="12">
   
     <h3 style="text-align:center;">Event</h3>
-    <div *ngIf="events">
-      <a *ngFor="let event of events">
-        <li (click)="selectEvent(event)">
-          {{event.title}}
-        </li>
-      </a>
-    
-      <button nz-button nzType="primary" (click)="addEventDialog()">
-        <span>Add Event</span>
-      </button>
-
-      <div *ngIf= "selectedEvent">
-        <p>Description: {{selectedEvent.description}}</p>
-        <p>Start Date: {{selectedEvent.startDate}}</p>
-        <p>End Date: {{selectedEvent.endDate}}</p>
-        <div class="meta-functions">       
-          <button nz-button nzType="primary" (click)="editEventDialog()">
-            <span>Edit</span>
-          </button> 
-          <button nz-button nzType="primary" (click)="showConfirm()">Delete</button> 
-          <button nz-button nzType="primary" (click)="deleteEventDialog()">
-            <span>Delete</span>
-          </button>  
-        </div>
+    <nz-collapse *ngIf="events" >
+      <nz-collapse-panel *ngFor="let event of events" [nzHeader]="event.title" [nzActive]="false">
+        <p style="margin:0;">
+          Description: {{event.description}}
+          <br> Start Date: {{event.startDate}}
+          <br> End Date: {{event.endDate}}
+        </p>
+        <div style="text-align:center">
+        <button nz-button class="button-function" nzType="primary" (click)="editEventDialog()">
+          <span>Edit</span>
+        </button>  
+        <button nz-button class="button-function" nzType="primary" (click)="deleteEventConfirm(event)">Delete</button>  
       </div>
-    
-    </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+
+    <button nz-button class="button-add" nzType="primary" (click)="addEventDialog()">
+      <span>Add Event</span>
+    </button>
   </div>
 

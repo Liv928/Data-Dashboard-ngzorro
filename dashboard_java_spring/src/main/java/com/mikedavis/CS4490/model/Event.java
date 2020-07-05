@@ -16,4 +16,5 @@ public class Event {
     private String buildingId;
     private String clusterId;
     private Boolean isGlobal;
+    private String category;
 }

@@ -36,9 +36,9 @@ public class SensorController {
     }
 
     @RequestMapping(path = "/sensor/deletemetadata", method = RequestMethod.DELETE)
-    public void deleteMeta(@RequestParam String title){
+    public void deleteMeta(@RequestParam int id){
 
-        sensorService.deleteAdditionalMetadata(title);
+        sensorService.deleteAdditionalMetadata(id);
     }
 
     @RequestMapping(path = "/sensor/updatemetadata", method = RequestMethod.POST)

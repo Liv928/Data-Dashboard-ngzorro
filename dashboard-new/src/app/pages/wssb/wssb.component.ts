@@ -39,11 +39,16 @@ export class WssbComponent implements OnInit {
 
   public buildingID = 'WSSB';
   
+  public charts = [{chartName:'Scatter Plot'},
+                    {chartName:'Line Chart'}];
   public isCollapsed = false;
   public Highcharts = Highcharts;
   public updateFromInput = true;
-  public chartOptions;
-  public chartOptions_2;
+
+  public selectedChart = {chartName:'Line Chart'};
+  public chartOption;  // chart option choosed by user
+  public chartOption_line;
+  public chartOption_scatter;
   
   public sensors: [];
   public selectedSensor = {id:''};
@@ -111,7 +116,7 @@ export class WssbComponent implements OnInit {
     this.sensorService.getSensorsByBuilding(this.buildingID).subscribe((data) => {
       this.sensors = data;
     });
-    this.chartOptions = {
+    this.chartOption_line = {
       legend: {
         layout: 'vertical',
         align: 'left',
@@ -143,9 +148,9 @@ export class WssbComponent implements OnInit {
         },
         TickInterval: 1 
       }
-    }
+    };
 
-    this.chartOptions_2 = {
+    this.chartOption_scatter = {
       chart: {
         type: 'scatter',
         zoomType: 'xy'
@@ -203,8 +208,8 @@ export class WssbComponent implements OnInit {
           }
         }
       },
-    }
-
+    };
+    this.chartOption = this.chartOption_scatter;
   };
 
 
@@ -233,6 +238,17 @@ export class WssbComponent implements OnInit {
 
       this.updateFromInput = true;
     });
+  }
+
+  selectChart(value: {chartName: string}): void {
+    console.log('select: ' + value.chartName);
+    if (value.chartName == 'Scatter Plot'){
+      this.chartOption = this.chartOption_scatter;
+      this.updateFromInput = true;
+    } else if (value.chartName == 'Line Chart'){
+      this.chartOption = this.chartOption_line;
+      this.updateFromInput = true;
+    }
   }
 
   // helper function to push events into events lis
@@ -290,7 +306,17 @@ export class WssbComponent implements OnInit {
 
   }
 
-  deleteMetaDialog(): void {
+  deleteMetaConfirm(deleteMeta): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure to delete this Metadata ?',
+      nzContent: '<b></b>',
+      nzOkText: 'Confirm',
+      nzOkType: 'danger',
+      nzOnOk: () => {this.sensorService.deleteMeta(deleteMeta.id).subscribe((response) => {
+                      this.additionalMetadata = this.additionalMetadata.filter(item => item !== deleteMeta);
+                      })
+                    }
+    });
   }
 
   addMetaDialog(): void {
@@ -367,14 +393,14 @@ export class WssbComponent implements OnInit {
     )
   }
 
-  showConfirm(): void {
+  deleteEventConfirm(deleteEvent): void {
     this.modal.confirm({
       nzTitle: 'Are you sure to delete this event ?',
       nzContent: '<b></b>',
       nzOkText: 'Confirm',
       nzOkType: 'danger',
-      nzOnOk: () => {this.sensorService.deleteEvent(this.selectedEvent.id).subscribe((response) => {
-                      this.events = this.events.filter(item => item !== this.selectedEvent);
+      nzOnOk: () => {this.sensorService.deleteEvent(deleteEvent.id).subscribe((response) => {
+                      this.events = this.events.filter(item => item !== deleteEvent);
                       })
                     }
     });
