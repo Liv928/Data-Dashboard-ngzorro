@@ -56,13 +56,11 @@ export class WssbComponent implements OnInit {
   public sensorData;
   public seriesData: [];
   public timestamps = [];
-  public datapoint = [];
+  public data = []; // data used on the chart
 
   public events = [];
   public selectedEvent: Event;
-  /*
-  public eventDetails = {};
-  public eventData ;*/
+  public eventOnChart = [];
   
   public additionalMetadata: AdditionalMetadata[] = [];
   public selectedMeta: AdditionalMetadata;
@@ -117,39 +115,28 @@ export class WssbComponent implements OnInit {
       this.sensors = data;
     });
     this.chartOption_line = {
-      legend: {
-        layout: 'vertical',
-        align: 'left',
-        verticalAlign: 'middle',
-        itemHoverStyle: {
-          color: 'red',
-        }
-      },
+  
       title: {text: 'Sensor Data'},
       series: [{
-        showInLegend: true,
-        type: 'line',
-        
         name: '',
         tooltip: {
-          valueDecimals: 2
+          valueDecimals: 2,
+          pointFormat: '{point.x:%m-%d}: {point.y:.2f} °C'
         },
-        data:this.datapoint
+        data:this.data
       }],
       yAxis: {
-
-        title: {text:'Degrees Celsius'}
+        title: {text:'Celsius'}
       },
       xAxis: {
-        categories: this.timestamps,
-        type: 'date',
+        type: 'datetime',
         dateTimeLabelFormats: {
-            day:'%b.%e'
+          week: '%Y-%m-%d'
         },
-        TickInterval: 1 
+        plotBands: this.eventOnChart
       }
     };
-
+    /*
     this.chartOption_scatter = {
       chart: {
         type: 'scatter',
@@ -209,7 +196,7 @@ export class WssbComponent implements OnInit {
         }
       },
     };
-    this.chartOption = this.chartOption_scatter;
+    this.chartOption = this.chartOption_scatter;*/
   };
 
 
@@ -221,21 +208,23 @@ export class WssbComponent implements OnInit {
       this.eventData = null;*/
       this.sensorData = data.sensor.data;
       this.seriesData = JSON.parse(data.data);
-
+    
       for (let i =0; i<this.seriesData.length; i++){
-      
-        this.timestamps.push(this.seriesData[i][0]);
-        this.datapoint.push(this.seriesData[i][1]);
-
+        var tempDate = new Date(this.seriesData[i][0]);
+        var tms = Date.UTC(tempDate.getUTCFullYear(),tempDate.getMonth(),tempDate.getDate(),tempDate.getHours(),tempDate.getMinutes());
+        console.log('tms: '+tms);
+        this.data.push([tms,this.seriesData[i][1]]);
       }
-      console.log("size " + this.timestamps.length + " " + this.datapoint.length);
+      
       for (const item of data.additionalMetadata) {
         this.additionalMetadata.push(item);
       }
       for (const item of data.events) {
         this.addEvent(item);
       }
-
+      for (const item of this.eventOnChart){
+        console.log('event: ' + item.from);
+      }
       this.updateFromInput = true;
     });
   }
@@ -254,23 +243,46 @@ export class WssbComponent implements OnInit {
   // helper function to push events into events lis
   addEvent(data): void {
     const start = new Date(data.startDate);
+    let starttime: number;
     let endtime: number;
+    let end: Date;
+    starttime = start.getTime();
     if (data.endDate) {
-      const end = new Date(data.endDate);
+      end = new Date(data.endDate);
       endtime = end.getTime();
     } else {
       endtime = start.getTime();
+      end = start;
     }
+    if (endtime != starttime ){
+      console.log("here");
+      this.eventOnChart.push(
+        {
+          from: start,
+          to: end,
+          color: '#EFFFFF',
+          label: {
+            text: data.title,
+            style: {
+              color: '#999999'
+            },
+            y: 180
+          }
+        }
+      );
+    }
+    
+
     this.events.push({
       id: data.id,
       title: data.title,
-      color: 'rgba(255,0,0,0.5)',
-      from: start.getTime(),
-      to: endtime,
-      events: this.plotBandEvents,
       description: data.description,
       cluster: data.cluster,
-      that: this
+      from: start,
+      to: end,
+      that: this,
+      color: 'rgba(255,0,0,0.5)',
+      events: this.plotBandEvents, 
     });
     this.updateFromInput = true;
   }
@@ -298,7 +310,8 @@ export class WssbComponent implements OnInit {
       endDate: end,
       buildingId: data.buildingId,
       clusterId: data.clusterId,
-      isGlobal: data.isGlobal
+      isGlobal: data.isGlobal,
+      category: data.category
     };
   }
 
@@ -383,6 +396,7 @@ export class WssbComponent implements OnInit {
             buildingId: this.buildingID,
             clusterId: result.clusterId,
             isGlobal: result.isGlobal,
+            category: result.category
           };
           console.log('result: ' + addEvent.isGlobal);
           this.sensorService.saveEvent(addEvent).subscribe((response) => {

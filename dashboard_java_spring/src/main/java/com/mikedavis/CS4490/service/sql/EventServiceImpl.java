@@ -14,7 +14,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getEvents(String buildingId, String sensorId){
-        return eventMapper.getEvents(buildingId, sensorId);
+        return eventMapper.getEvents(buildingId, sensorId);//shall also get all the global event
     }
 
     @Override

@@ -37,7 +37,6 @@ export class HomeComponent implements OnInit {
   public eventDetails = {};
   public eventData;
   public selectedMeta: AdditionalMetadata;
-  public charts: string[] = ['Pie Chart', 'Bar Chart', 'Scatter Plot'];
 
   constructor() { }
 

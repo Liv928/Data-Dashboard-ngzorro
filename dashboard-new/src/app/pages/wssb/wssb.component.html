@@ -24,7 +24,7 @@
       <highcharts-chart
       [Highcharts]="Highcharts"
       [constructorType]="'stockChart'"
-      [options]="chartOption"
+      [options]="chartOption_line"
       [oneToOne]=true
       [(update)]="updateFromInput"
       style="width: 100%; height:100%; display:block;"
@@ -66,8 +66,8 @@
       <nz-collapse-panel *ngFor="let event of events" [nzHeader]="event.title" [nzActive]="false">
         <p style="margin:0;">
           Description: {{event.description}}
-          <br> Start Date: {{event.startDate}}
-          <br> End Date: {{event.endDate}}
+          <br> Start Date: {{event.from}}
+          <br> End Date: {{event.to}}
         </p>
         <div style="text-align:center">
         <button nz-button class="button-function" nzType="primary" (click)="editEventDialog()">

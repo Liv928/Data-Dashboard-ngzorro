@@ -22,5 +22,7 @@ public class SensorMeta implements Serializable {
     private String source;
     private String first;
     private String last;
+    private String highest;
+    private String lowest;
     private Date ts_utc;
 }

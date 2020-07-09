@@ -7,4 +7,5 @@ export class Event {
   buildingId: string;
   clusterId: number;
   isGlobal: boolean;
+  category: string;
 }

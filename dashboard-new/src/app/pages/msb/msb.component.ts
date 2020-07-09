@@ -208,7 +208,8 @@ export class MsbComponent implements OnInit {
       endDate: end,
       buildingId: data.buildingId,
       clusterId: data.cluster,
-      isGlobal: data.isGlobal
+      isGlobal: data.isGlobal,
+      category: data.category
     };
   }
 

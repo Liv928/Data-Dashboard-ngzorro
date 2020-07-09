@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import javax.print.DocFlavor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -38,7 +39,7 @@ public class SensorLogServiceImpl implements SensorLogService {
     // for the test data, the list should contain only one JSONArray
     public JSONArray getSensorJSONDataByID(String id, String date){
         //return a list of JSON object {}
-        List<DBObject> sensorLogDoc = mongoTemplate.find(new Query(Criteria.where("_id").is(id + "-" + date)), DBObject.class, "3357");
+        List<DBObject> sensorLogDoc = mongoTemplate.find(new Query(Criteria.where("_id").is(id + "-" + date)), DBObject.class, "3357.0.TL1");
         System.out.println("getSensorJSON-count: " + sensorLogDoc.size());
 
         JSONArray data = new JSONArray();
@@ -61,7 +62,7 @@ public class SensorLogServiceImpl implements SensorLogService {
 
     // add JSONData ["timestamp", "data point"] to an existed jsonArray
     public void addJSONDataByID(String id, String date, List<JSONArray> jsonArray){
-        List<DBObject> sensorLogDoc = mongoTemplate.find(new Query(Criteria.where("_id").is(id + "628-" + date)), DBObject.class, "3357");
+        List<DBObject> sensorLogDoc = mongoTemplate.find(new Query(Criteria.where("_id").is(id + "628-" + date)), DBObject.class, "3357.0.TL1");
 
         SimpleDateFormat simpleDateFormat = new  SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -88,7 +89,7 @@ public class SensorLogServiceImpl implements SensorLogService {
 
     // return a sensorLog which contains a Map <"temperature", "data point">
     public SensorLog getSensorLogByID(String id, String date){
-        List<DBObject> sensorLogDoc = mongoTemplate.find(new Query(Criteria.where("_id").is(id + "-" + date)), DBObject.class, "3357");
+        List<DBObject> sensorLogDoc = mongoTemplate.find(new Query(Criteria.where("_id").is(id + "-" + date)), DBObject.class, "3357.0.TL1");
 
         SensorLog sensorLog = new SensorLog();
         sensorLog.setId(id);
@@ -199,5 +200,15 @@ public class SensorLogServiceImpl implements SensorLogService {
     public List<SensorMeta> findSensorMetasById(String id) {
         List<SensorMeta> sensorMetas = mongoDAO.findSensorMetasById(id);
         return sensorMetas;
+    }
+
+    //find the highest temperature data among all the buildings
+    public void findHighest() {
+
+    }
+
+    //find the highest temperature data of a building
+    public void findHighestByBuilding(String id){
+
     }
 }

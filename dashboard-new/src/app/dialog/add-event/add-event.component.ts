@@ -12,6 +12,7 @@ export class AddEventComponent implements OnInit {
 
   public buildings = [];
   public clusters = ['test A'];
+  public eventCategory = ['category A', 'category B', 'category C'];
   
   public eventTitle = '';
   public eventDescription = '';
@@ -30,7 +31,8 @@ export class AddEventComponent implements OnInit {
       startDate: [null, [Validators.required]],
       endDate: [null],
       clusterId: [null],
-      isGlobal: [false, [Validators.required]]
+      isGlobal: [false, [Validators.required]],
+      category:['']
     });
    }
 
@@ -41,7 +43,7 @@ export class AddEventComponent implements OnInit {
     this.modal.destroy();
   }
 
-  submitForm(value: { eventTitle: string; eventDescription: string; startDate: Date; endDate: Date, clusterId: string, isGlobal: boolean }): void {
+  submitForm(value: { eventTitle: string; eventDescription: string; startDate: Date; endDate: Date, clusterId: string, isGlobal: boolean, category: string }): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
@@ -54,6 +56,7 @@ export class AddEventComponent implements OnInit {
                   endDate: value.endDate,
                   clusterId: value.clusterId,
                   isGlobal: value.isGlobal,
+                  category: value.category,
                 };
     
     console.log('value global: ' + value.isGlobal + 'cluster: ' + value.clusterId);
