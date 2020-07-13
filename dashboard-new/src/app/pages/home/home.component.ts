@@ -12,8 +12,10 @@ Highcharts.setOptions({
     style: {
       color: 'black'
     }
-  }
+  },
 });
+
+
 
 @Component({
   selector: 'app-home',
@@ -40,43 +42,65 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
+ 
   ngOnInit() {
-
     this.chartOptions = {
-      legend: {
-        layout: 'vertical',
-        align: 'left',
-        verticalAlign: 'middle',
-        itemHoverStyle: {
-          color: 'red',
-        }
+      chart: {
+          type: 'spline',
+          marginRight: 10,
+          events: {
+              load: function () {
+                  const series = this.series[0];
+                  setInterval(function () {
+                      const x = (new Date()).getTime(); // current time
+                      const y = Math.round(Math.random() * 100);
+                      series.addPoint([x, y], true, true);
+                  }, 1000);
+              }
+          }
       },
-      rangeSelector: {
-        selected: 2
-      },
-      title: {text: 'Sensor Data'},
-      series: [{
-        showInLegend: true,
-        type: 'line',
-        name: '',
-        tooltip: {
-          valueDecimals: 2
-        },
-        data:[]
-      }],
-      yAxis: {
-        opposite: false,
-        title: {}
+      title: {
+          text: 'Live Random Data'
       },
       xAxis: {
-        type: 'datetime',
-        dateTimeLabelFormats: {
-            hour: '%H:%M'
-        },
-        minRange: 1000,
-        minTickInterval: 1000 
-      }
+          type: 'datetime',
+          tickPixelInterval: 150
+      },
+      yAxis: {
+          title: {
+              text: null
+          }
+      },
+      tooltip: {
+          formatter: function () {
+              return '<b>'  + '</b><br/>' +
+                  Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                  Highcharts.numberFormat(this.y, 2);
+          }
+      },
+      legend: {
+          enabled: false
+      },
+      series: [{
+          name: 'Random Data',
+          data: (function () {
+              // 生成随机值
+              const data = [];
+              const time = (new Date()).getTime();
+              let i: number;
+              for (i = -99; i <= 0; i += 1) {
+                  data.push([time + i * 1000, Math.round(Math.random() * 100)] );
+              }
+              return data;
+          }())
+      }]
     }
+    
+  }
+
+  activeLastPointToolip(chart): void {
+    const points = chart.series[0].points;
+    chart.tooltip.refresh(points[points.length - 1]);
   }
 
 }

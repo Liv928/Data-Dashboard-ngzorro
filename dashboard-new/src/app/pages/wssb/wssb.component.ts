@@ -133,7 +133,40 @@ export class WssbComponent implements OnInit {
         dateTimeLabelFormats: {
           week: '%Y-%m-%d'
         },
-        plotBands: this.eventOnChart
+        plotBands: [{
+          from: Date.UTC(2016, 10, 27),
+          to: Date.UTC(2016, 11, 1),
+          color: '#EFFFFF',
+          label: {
+            text: '<em>Events:</em><br> test date',
+            style: {
+              color: '#999999'
+            },
+            y: 180
+          }
+        }, {
+          from: Date.UTC(2016, 11, 1),
+          to: Date.UTC(2017, 1, 1),
+          color: '#FFFFEF',
+          label: {
+            text: '<em>Events:</em><br> wssb events',
+            style: {
+              color: '#999999'
+            },
+            y: 30
+          }
+        }, {
+          from: Date.UTC(2017, 1, 1),
+          to: Date.UTC(2017, 10, 27),
+          color: '#FFEFFF',
+          label: {
+            text: '<em>Events:</em><br> summer events',
+            style: {
+              color: '#999999'
+            },
+            y: 30
+          }
+        }]
       }
     };
     /*
@@ -212,7 +245,6 @@ export class WssbComponent implements OnInit {
       for (let i =0; i<this.seriesData.length; i++){
         var tempDate = new Date(this.seriesData[i][0]);
         var tms = Date.UTC(tempDate.getUTCFullYear(),tempDate.getMonth(),tempDate.getDate(),tempDate.getHours(),tempDate.getMinutes());
-        console.log('tms: '+tms);
         this.data.push([tms,this.seriesData[i][1]]);
       }
       
