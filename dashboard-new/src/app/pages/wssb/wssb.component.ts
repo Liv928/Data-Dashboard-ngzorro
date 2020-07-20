@@ -115,7 +115,20 @@ export class WssbComponent implements OnInit {
       this.sensors = data;
     });
     this.chartOption_line = {
-  
+      chart:{
+        event:{
+          click: function(e) {
+            console.log('on click');
+          }
+        }
+      },
+      plotOptions: {
+        event:{
+          click: function(e) {
+            console.log('on click');
+          }
+        }
+      },
       title: {text: 'Sensor Data'},
       series: [{
         name: '',
@@ -135,14 +148,14 @@ export class WssbComponent implements OnInit {
         },
         plotBands: [{
           from: Date.UTC(2016, 10, 27),
-          to: Date.UTC(2016, 11, 1),
+          to: Date.UTC(2016, 10, 28),
           color: '#EFFFFF',
           label: {
             text: '<em>Events:</em><br> test date',
             style: {
               color: '#999999'
             },
-            y: 180
+            y: 30
           }
         }, {
           from: Date.UTC(2016, 11, 1),
@@ -348,7 +361,27 @@ export class WssbComponent implements OnInit {
   }
 
   editMetaDialog(): void {
+    const modalRef = this.modalService.create({
+      nzTitle: 'Edit Metadata',
+      nzContent: EditMetadataComponent,
+    });
 
+    modalRef.afterClose.subscribe(
+      result =>{
+        modalRef.close();
+        if (result) {
+          const updateMetadata: AdditionalMetadata = {
+            id: null,
+            title: result.metaTitle,
+            description: result.metaDescription,
+            sensorId: this.selectedSensor.id
+          };
+          this.sensorService.updateMetadata(updateMetadata).subscribe((response) => {
+            this.additionalMetadata.push(updateMetadata);
+          });
+        }
+      }
+    )
   }
 
   deleteMetaConfirm(deleteMeta): void {
@@ -389,7 +422,32 @@ export class WssbComponent implements OnInit {
   }
 
   editEventDialog(): void {
-
+    const modalRef = this.modalService.create({
+      nzTitle: 'Eidt Evnet',
+      nzContent: EditEventComponent
+    });
+    modalRef.afterClose.subscribe(
+      result => {
+        modalRef.close();
+        if (result) {
+          const updateEvent: Event = {
+            id: null,
+            title: result.eventTitle,
+            description: result.eventDescription,
+            startDate: result.startDate,
+            endDate: result.endDate,
+            buildingId: this.buildingID,
+            clusterId: result.clusterId,
+            isGlobal: result.isGlobal,
+            category: result.category
+          };
+          console.log('result: ' + updateEvent.isGlobal);
+          this.sensorService.updateEvent(updateEvent).subscribe((response) => {
+            this.events.push(updateEvent);
+          });
+        }
+      }
+    )
   }
 
   deleteEventDialog(): void {

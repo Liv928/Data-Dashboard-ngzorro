@@ -60,7 +60,6 @@
 
   <!--Event List for current buildings-->
   <div nz-col class="gutter-row" nzSpan="12">
-  
     <h3 style="text-align:center;">Event</h3>
     <nz-collapse *ngIf="events" >
       <nz-collapse-panel *ngFor="let event of events" [nzHeader]="event.title" [nzActive]="false">

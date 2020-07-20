@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   public Highcharts = Highcharts;
   public updateFromInput = true;
   public chartOptions;
-  public buildings: [];
+  public buildings: [{name:'FIMS & Nursing Building'}, {name:'Miscellaneous Campus Data'}];
   public sensors: [];
   public sensorData;
   public additionalMetadata: AdditionalMetadata[] = [];

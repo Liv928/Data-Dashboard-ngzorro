@@ -1,3 +1,82 @@
-<p>
-  edit-event works!
-</p>
+
+<div>
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Title</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="titleErrorTpl">
+        <input nz-input formControlName="eventTitle" placeholder="Event title" />
+        <ng-template #titleErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please enter a title for this event !
+          </ng-container>
+          <!--
+          <ng-container *ngIf="control.hasError('duplicated')">
+            The username is redundant!
+          </ng-container>
+        -->
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Description</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="descErrorTpl">
+        <input nz-input formControlName="eventDescription" placeholder="Event description" />
+        <ng-template #descErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please enter a description for this event!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Start Date</nz-form-label>
+      <nz-form-control [nzSm]="16" [nzXs]="24">
+        <nz-date-picker nzShowTime formControlName="startDate"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24">End Date</nz-form-label>
+      <nz-form-control [nzSm]="16" [nzXs]="24">
+        <nz-date-picker nzShowTime formControlName="endDate"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24">Cluster</nz-form-label>
+      <nz-form-control [nzSm]="16" [nzXs]="24">
+        <nz-select formControlName="clusterId" nzPlaceHolder="Select a cluster">
+          <nz-option *ngFor="let cluster of clusters" [nzValue]="cluster" [nzLabel]="cluster"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24">Event Category</nz-form-label>
+      <nz-form-control [nzSm]="16" [nzXs]="24">
+        <nz-select formControlName="category" nzPlaceHolder="Select a category">
+          <nz-option *ngFor="let cat of eventCategory" [nzValue]="cat" [nzLabel]="cat"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired></nz-form-label>
+      <nz-form-control [nzSm]="16" [nzXs]="24">
+        <label nz-radio formControlName="isGlobal">Global Event?</label>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+ 
+</div>
+

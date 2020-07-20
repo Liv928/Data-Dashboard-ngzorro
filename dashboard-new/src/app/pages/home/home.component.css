@@ -91,4 +91,8 @@
     background: #ebebeb;
     margin: 20px;
   }
+
+  nz-select {
+    width: 300px;
+  }
   

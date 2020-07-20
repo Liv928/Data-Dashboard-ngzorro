@@ -1,6 +1,14 @@
-<div class="content-box">
-        
-  <div nz-row nzGutter="8">
+<nz-content>
+  <h3>To begin, select the building you'd like to view the its data </h3>
+  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a building" [(ngModel)]="selectedBuilding">
+    <nz-option nzLabel="Western Student Service Building" nzValue="WSSB"></nz-option>
+    <nz-option nzLabel="Film & Nursing Building" nzValue="FNB"></nz-option>
+    <nz-option nzLabel="Ontario Hall Residence" nzValue="OHR"></nz-option>
+    <nz-option nzLabel="Medical Science Building" nzValue="MSB"></nz-option>
+    <nz-option nzLabel="Miscellaneous Campus" nzValue="MISC"></nz-option>
+  </nz-select>
+  
+  <div nz-row nzGutter="16">
     <div nz-col class="gutter-row" >
       <div class="gutter-box-chart">
         <highcharts-chart
@@ -14,27 +22,30 @@
       </div>
     </div>
   </div>
-
+  <h3>From {{selectedBuilding}}</h3>
   <div nz-row nzGutter="16">
     <div nz-col class="gutter-row" nzSpan="6">
-      <div class="gutter-box-data">
-        mean
-      </div>
+      <nz-card>
+        <nz-statistic [nzValue]="( 24| number)!" [nzTitle]="'Historic High (°C)'"></nz-statistic>
+        <p>Date: Aug 18, 2016</p>
+      </nz-card>
     </div>
     <div nz-col class="gutter-row" nzSpan="6">
-      <div class="gutter-box-data">
-        median
-      </div>
+      <nz-card>
+        <nz-statistic [nzValue]="( 0| number)!" [nzTitle]="'Historic Low (°C)'"></nz-statistic>
+        <p>Date: Oct 21, 2016</p>
+      </nz-card>
     </div>
     <div nz-col class="gutter-row" nzSpan="6">
-      <div class="gutter-box-data">
-        highest
-      </div>
+      <nz-card>
+        <nz-statistic [nzValue]="( 0| number)!" [nzTitle]="'Average (°C)'"></nz-statistic>
+     
+      </nz-card>
     </div>
     <div nz-col class="gutter-row" nzSpan="6">
-      <div class="gutter-box-data">
-        lowest
-      </div>
+      <nz-card>
+        <nz-statistic [nzValue]="( 12| number)!" [nzTitle]="'Median (°C)'"></nz-statistic>
+      </nz-card>
     </div>
   </div>
-  </div>
+</nz-content>
