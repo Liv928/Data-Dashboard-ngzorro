@@ -4,6 +4,7 @@ import StockModule from 'highcharts/modules/stock';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 
 import {AdditionalMetadata} from '../../model/additional-metadata';
+declare var BMap: any;
 
 StockModule(Highcharts);
 
@@ -22,6 +23,7 @@ Highcharts.setOptions({
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit {
   public isCollapsed = false;
   public Highcharts = Highcharts;
@@ -44,6 +46,7 @@ export class HomeComponent implements OnInit {
 
  
   ngOnInit() {
+    
     this.chartOptions = {
       chart: {
           type: 'spline',

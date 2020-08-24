@@ -116,18 +116,9 @@ export class WssbComponent implements OnInit {
     });
     this.chartOption_line = {
       chart:{
-        event:{
-          click: function(e) {
-            console.log('on click');
-          }
-        }
+        
       },
       plotOptions: {
-        event:{
-          click: function(e) {
-            console.log('on click');
-          }
-        }
       },
       title: {text: 'Sensor Data'},
       series: [{
@@ -146,6 +137,8 @@ export class WssbComponent implements OnInit {
         dateTimeLabelFormats: {
           week: '%Y-%m-%d'
         },
+        plotBands: this.eventOnChart,
+        /*
         plotBands: [{
           from: Date.UTC(2016, 10, 27),
           to: Date.UTC(2016, 10, 28),
@@ -179,7 +172,7 @@ export class WssbComponent implements OnInit {
             },
             y: 30
           }
-        }]
+        }]*/
       }
     };
     /*
@@ -300,23 +293,36 @@ export class WssbComponent implements OnInit {
       end = start;
     }
     if (endtime != starttime ){
-      console.log("here");
+      
+      const start_utc  = Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate(),
+      start.getUTCHours(), start.getUTCMinutes(), start.getUTCSeconds());
+      const end_utc = Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate(),
+      end.getUTCHours(), end.getUTCMinutes(), end.getUTCSeconds());
+
+      function randomHexColor() {
+        const eventColor : string[] = ['#E0FFFF','#FFB3E6','#FF8099','#FFDEA1','#FFFFA1','B0E0E6'];
+        var index = Math.floor((Math.random()*eventColor.length)); 
+        //var hex = Math.floor(Math.random() * 16777216).toString(16); 
+        return eventColor[index]; 
+      }
+
+      const bandColor = randomHexColor(); // generate random color
       this.eventOnChart.push(
         {
-          from: start,
-          to: end,
-          color: '#EFFFFF',
+          from: start_utc,
+          to: end_utc,
+          color: bandColor,
           label: {
             text: data.title,
             style: {
               color: '#999999'
             },
-            y: 180
+            y: 30
           }
         }
       );
-    }
-    
+      console.log("plot ent:" + this.eventOnChart.length);
+    }    
 
     this.events.push({
       id: data.id,

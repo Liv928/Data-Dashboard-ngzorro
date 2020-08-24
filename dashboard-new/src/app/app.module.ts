@@ -51,6 +51,7 @@ import { AddSensorsComponent } from './dialog/add-sensors/add-sensors.component'
 
 
 
+
 registerLocaleData(en);
 
 const antDesignIcons = AllIcons as {

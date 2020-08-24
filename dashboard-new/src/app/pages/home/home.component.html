@@ -17,7 +17,7 @@
         [options]="chartOptions"
         [oneToOne]=true
         [(update)]="updateFromInput"
-        style="width: 800px; height:400px; display:block;"
+        style="width:100%; height:400px; display:block;"
         ></highcharts-chart>
       </div>
     </div>
@@ -32,13 +32,13 @@
     </div>
     <div nz-col class="gutter-row" nzSpan="6">
       <nz-card>
-        <nz-statistic [nzValue]="( 0| number)!" [nzTitle]="'Historic Low (°C)'"></nz-statistic>
+        <nz-statistic [nzValue]="( 2.7| number)!" [nzTitle]="'Historic Low (°C)'"></nz-statistic>
         <p>Date: Oct 21, 2016</p>
       </nz-card>
     </div>
     <div nz-col class="gutter-row" nzSpan="6">
       <nz-card>
-        <nz-statistic [nzValue]="( 0| number)!" [nzTitle]="'Average (°C)'"></nz-statistic>
+        <nz-statistic [nzValue]="( 14.4| number)!" [nzTitle]="'Average (°C)'"></nz-statistic>
      
       </nz-card>
     </div>
@@ -48,4 +48,5 @@
       </nz-card>
     </div>
   </div>
+ 
 </nz-content>
