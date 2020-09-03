@@ -34,6 +34,9 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+
 
 import { HomeComponent } from './pages/home/home.component';
 import { MiscComponent } from './pages/misc/misc.component';
@@ -101,7 +104,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NzPopconfirmModule,
     NzCollapseModule,
     NzStatisticModule,
-    NzCardModule
+    NzCardModule,
+    NzNotificationModule,
+    NzMessageModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, NzModalService, { provide: NZ_ICONS, useValue: icons }],
   bootstrap: [AppComponent]

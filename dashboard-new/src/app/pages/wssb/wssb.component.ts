@@ -3,6 +3,7 @@ import * as Highcharts from 'highcharts';
 import StockModule from 'highcharts/modules/stock';
 
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 
 import {Event} from '../../model/event';
@@ -108,7 +109,8 @@ export class WssbComponent implements OnInit {
     }
   };
 
-  constructor(private sensorService: SensorService, private modalService: NzModalService, private modal: NzModalService) { }
+  constructor(private sensorService: SensorService, private modalService: NzModalService, 
+              private modal: NzModalService, private message: NzMessageService) { }
 
   ngOnInit(){
     this.sensorService.getSensorsByBuilding(this.buildingID).subscribe((data) => {
@@ -300,10 +302,9 @@ export class WssbComponent implements OnInit {
       end.getUTCHours(), end.getUTCMinutes(), end.getUTCSeconds());
 
       function randomHexColor() {
-        const eventColor : string[] = ['#E0FFFF','#FFB3E6','#FF8099','#FFDEA1','#FFFFA1','B0E0E6'];
-        var index = Math.floor((Math.random()*eventColor.length)); 
-        //var hex = Math.floor(Math.random() * 16777216).toString(16); 
-        return eventColor[index]; 
+        const eventColor: string[] = ['#EFFFFF', '#FFFFEF', '#FFEFFF'];
+        var index = Math.floor((Math.random()*eventColor.length));
+        return eventColor[index];
       }
 
       const bandColor = randomHexColor(); // generate random color
@@ -516,5 +517,6 @@ export class WssbComponent implements OnInit {
     });
   }
 
+  
 
 }

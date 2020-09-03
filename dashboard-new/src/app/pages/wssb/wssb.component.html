@@ -34,8 +34,8 @@
 </div>
 
 <!--Metadata List-->
-<div nz-row nzGutter="16">
-  <div nz-col class="gutter-row" nzSpan="12">
+<div nz-row nzGutter="8">
+  <div nz-col class="gutter-row" nzSpan="8">
      <h3 style="text-align:center;">Additional Metadata</h3>
      
       <nz-collapse *ngIf="additionalMetadata" >
@@ -59,7 +59,7 @@
   </div>
 
   <!--Event List for current buildings-->
-  <div nz-col class="gutter-row" nzSpan="12">
+  <div nz-col class="gutter-row" nzSpan="8">
     <h3 style="text-align:center;">Event</h3>
     <nz-collapse *ngIf="events" >
       <nz-collapse-panel *ngFor="let event of events" [nzHeader]="event.title" [nzActive]="false">
@@ -80,5 +80,9 @@
     <button nz-button class="button-add" nzType="primary" (click)="addEventDialog()">
       <span>Add Event</span>
     </button>
+  </div>
+
+  <div nz-col class="gutter-row" nzSpan="8">
+    
   </div>
 

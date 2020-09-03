@@ -8,8 +8,8 @@
     <nz-option nzLabel="Miscellaneous Campus" nzValue="MISC"></nz-option>
   </nz-select>
   
-  <div nz-row nzGutter="16">
-    <div nz-col class="gutter-row" >
+  <div nz-row nzGutter="6">
+    <div nz-col class="gutter-row" nzSpan="18">
       <div class="gutter-box-chart">
         <highcharts-chart
         [Highcharts]="Highcharts"
@@ -17,8 +17,13 @@
         [options]="chartOptions"
         [oneToOne]=true
         [(update)]="updateFromInput"
-        style="width:100%; height:400px; display:block;"
+        style="width:100%px; height:400px; display:block;"
         ></highcharts-chart>
+      </div>
+    </div>
+    <div nz-col class="gutter-row" nzSpan="6">
+      <div class="gutter-box-chart">
+        <input placeholder="Please enter a monitored thrshold">
       </div>
     </div>
   </div>
@@ -26,25 +31,25 @@
   <div nz-row nzGutter="16">
     <div nz-col class="gutter-row" nzSpan="6">
       <nz-card>
-        <nz-statistic [nzValue]="( 24| number)!" [nzTitle]="'Historic High (°C)'"></nz-statistic>
+        <nz-statistic [nzValue]="" [nzTitle]="'Historic High (°C)'"></nz-statistic>
         <p>Date: Aug 18, 2016</p>
       </nz-card>
     </div>
     <div nz-col class="gutter-row" nzSpan="6">
       <nz-card>
-        <nz-statistic [nzValue]="( 2.7| number)!" [nzTitle]="'Historic Low (°C)'"></nz-statistic>
+        <nz-statistic [nzValue]="" [nzTitle]="'Historic Low (°C)'"></nz-statistic>
         <p>Date: Oct 21, 2016</p>
       </nz-card>
     </div>
     <div nz-col class="gutter-row" nzSpan="6">
       <nz-card>
-        <nz-statistic [nzValue]="( 14.4| number)!" [nzTitle]="'Average (°C)'"></nz-statistic>
+        <nz-statistic [nzValue]="" [nzTitle]="'Average (°C)'"></nz-statistic>
      
       </nz-card>
     </div>
     <div nz-col class="gutter-row" nzSpan="6">
       <nz-card>
-        <nz-statistic [nzValue]="( 12| number)!" [nzTitle]="'Median (°C)'"></nz-statistic>
+        <nz-statistic [nzValue]="" [nzTitle]="'Median (°C)'"></nz-statistic>
       </nz-card>
     </div>
   </div>

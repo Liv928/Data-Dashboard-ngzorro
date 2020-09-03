@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import StockModule from 'highcharts/modules/stock';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { SensorService } from '../../services/sensor.service';
+
 
 import {AdditionalMetadata} from '../../model/additional-metadata';
 declare var BMap: any;
@@ -29,7 +32,7 @@ export class HomeComponent implements OnInit {
   public Highcharts = Highcharts;
   public updateFromInput = true;
   public chartOptions;
-  public buildings: [{name:'FIMS & Nursing Building'}, {name:'Miscellaneous Campus Data'}];
+  public buildings: [];
   public sensors: [];
   public sensorData;
   public additionalMetadata: AdditionalMetadata[] = [];
@@ -41,12 +44,15 @@ export class HomeComponent implements OnInit {
   public eventDetails = {};
   public eventData;
   public selectedMeta: AdditionalMetadata;
+  public threshold;
 
-  constructor() { }
+  constructor(private message: NzMessageService, private sensorService: SensorService ) { }
 
  
   ngOnInit() {
-    
+    this.sensorService.getBuildings().subscribe((data) => {
+      this.buildings = data;
+    });
     this.chartOptions = {
       chart: {
           type: 'spline',
@@ -57,6 +63,9 @@ export class HomeComponent implements OnInit {
                   setInterval(function () {
                       const x = (new Date()).getTime(); // current time
                       const y = Math.round(Math.random() * 100);
+                      if (y > 70){
+                        this.message.create('warning', 'Abnormal Temperature Notification');
+                      }
                       series.addPoint([x, y], true, true);
                   }, 1000);
               }
@@ -94,6 +103,7 @@ export class HomeComponent implements OnInit {
               for (i = -99; i <= 0; i += 1) {
                   data.push([time + i * 1000, Math.round(Math.random() * 100)] );
               }
+          
               return data;
           }())
       }]
@@ -105,5 +115,10 @@ export class HomeComponent implements OnInit {
     const points = chart.series[0].points;
     chart.tooltip.refresh(points[points.length - 1]);
   }
+
+  createBasicMessage(): void {
+    this.message.info('Abnormal Temperature Notification.');
+  }
+
 
 }
