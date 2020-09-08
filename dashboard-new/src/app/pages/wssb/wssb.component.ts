@@ -237,16 +237,7 @@ export class WssbComponent implements OnInit {
   }
 
   selectChart(value: {chartName: string}): void {
-    /*
-    if (value.chartName == 'Event Statistics'){
-      this.chartOption = this.chartOption_circular;
-      this.chartConstructor = '';
-      this.updateFromInput = true;
-    } else if (value.chartName == 'Sensor Data'){
-      this.chartOption = this.chartOption_line;
-      this.chartConstructor = 'stockChart';
-      this.updateFromInput = true;
-    }*/
+  
   }
 
   // helper function to push events into events list
