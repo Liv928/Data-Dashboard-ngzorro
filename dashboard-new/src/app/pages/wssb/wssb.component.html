@@ -47,6 +47,33 @@
   </div>
 </div>
 
+<div nz-row nzGutter="12">
+  <div nz-col class="gutter-row" nzSpan="6">
+    <nz-card>
+      <nz-statistic [nzValue]="highest" [nzTitle]="'Historic High (°C)'"></nz-statistic>
+      <p>Date:   </p>
+    </nz-card>
+  </div>
+  <div nz-col class="gutter-row" nzSpan="6">
+    <nz-card>
+      <nz-statistic [nzValue]="lowest" [nzTitle]="'Historic Low (°C)'"></nz-statistic>
+      <p>Date:   </p>
+    </nz-card>
+  </div>
+  <div nz-col class="gutter-row" nzSpan="6">
+    <nz-card>
+      <nz-statistic [nzValue]="" [nzTitle]="'Average (°C)'"></nz-statistic>
+      <p>Date: </p>
+    </nz-card>
+  </div>
+  <div nz-col class="gutter-row" nzSpan="6">
+    <nz-card>
+      <nz-statistic [nzValue]="" [nzTitle]="'Median (°C)'"></nz-statistic>
+      <p>Date: </p>
+    </nz-card>
+  </div>
+</div>
+
 <!--Metadata List-->
 <div nz-row nzGutter="8">
   <div nz-col class="gutter-row" nzSpan="12">

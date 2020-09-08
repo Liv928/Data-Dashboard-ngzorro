@@ -202,13 +202,5 @@ public class SensorLogServiceImpl implements SensorLogService {
         return sensorMetas;
     }
 
-    //find the highest temperature data among all the buildings
-    public void findHighest() {
 
-    }
-
-    //find the highest temperature data of a building
-    public void findHighestByBuilding(String id){
-
-    }
 }

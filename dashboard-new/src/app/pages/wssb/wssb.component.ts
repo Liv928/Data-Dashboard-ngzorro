@@ -58,12 +58,17 @@ export class WssbComponent implements OnInit {
   public selectedSensor = {id:''};
   
   public sensorData;
+  public sensorMeta;
   public seriesData: [];
   public timestamps = [];
   public data_line = []; // data used in the line chart
   public data_circular_A = []; // data used in the circular chart
   public data_circular_B = [];
   public data_circular_C = [];
+  public highest;
+  public lowest;
+  public highestDate;
+  public lowestDate;
 
   public events = [];
   public selectedEvent: Event;
@@ -212,7 +217,12 @@ export class WssbComponent implements OnInit {
     this.sensorService.getAllSensorData(value.id).subscribe((data) => {
       this.additionalMetadata = [];
       this.events.length = 0;
-      this.sensorData = data.sensor.data;
+      this.sensorData = data.data;
+      this.sensorMeta = data.sensorMeta;
+      this.highest = this.sensorMeta.highest;
+      this.lowest = this.sensorMeta.lowest;
+     
+      console.log(this.highest);
       this.seriesData = JSON.parse(data.data);
     
       for (let i =0; i<this.seriesData.length; i++){
