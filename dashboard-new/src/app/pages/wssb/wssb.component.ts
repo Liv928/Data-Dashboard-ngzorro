@@ -65,7 +65,7 @@ export class WssbComponent implements OnInit {
   public events = [];           // events list from SQL server
   public selectedEvent: Event; 
   public eventOnChart = [];     // plotbands that indicat the events on the chart
-  public evt_y=75;              // y-axis value of event title shown on teh chart
+  public evt_y=90;              // y-axis value of event title shown on teh chart
   
   public additionalMetadata: AdditionalMetadata[] = []; // additional metadata list from SQL server
   public selectedMeta: AdditionalMetadata;
@@ -229,8 +229,8 @@ export class WssbComponent implements OnInit {
       for (const item of data.events) {
         this.addEvent(item);
         this.evt_y = this.evt_y - 15;
-        if (this.evt_y == 0){
-          this.evt_y = 75;
+        if (this.evt_y == 60){
+          this.evt_y = 90;
         }
       }
       this.updateFromInput = true;
