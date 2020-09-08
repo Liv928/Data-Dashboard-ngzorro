@@ -2,6 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
 
+This dashboard is an exploration of event tagging for sensor data.
+
 ![image](https://github.com/Liv928/Dashboard-Ng-Zorro/blob/master/img/overview-1.png)
 
 ## Development server
