@@ -24,13 +24,6 @@ import { ResourceLoader } from '@angular/compiler';
 HighchartsMore(Highcharts)
 /*
 StockModule(Highcharts);
-Highcharts.setOptions({
-  title: {
-    style: {
-      color: 'black'
-    }
-  }
-});
 */
 
 @Component({
@@ -44,38 +37,37 @@ export class WssbComponent implements OnInit {
   
   public isCollapsed = false;
   public Highcharts = Highcharts;
-  public chartConstructor='';
   public updateFromInput = true;
 
-  public chartOption;  // chart option choosed by user
-  public chartOption_line;
-  public chartOption_circular;
+  public chartOption;  
+  public chartOption_line;      // line chart configuration
+  public chartOption_circular;  // circular chart configuration
   public selectedChart = { label: 'Line Chart', constructor: 'stockChart', chartoption: this.chartOption_line};
   public charts =  [{ label: 'Line', constructor: 'stockChart', chartoption: this.chartOption_line },
                     { label: 'Circular Chart', constructor: '', chartoption: this.chartOption_circular }];
 
-  public sensors: [];
+  public sensors: [];           // a sensor list invoked from database
   public selectedSensor = {id:''};
   
   public sensorData;
   public sensorMeta;
   public seriesData: [];
   public timestamps = [];
-  public data_line = []; // data used in the line chart
-  public data_circular_A = []; // data used in the circular chart
-  public data_circular_B = [];
-  public data_circular_C = [];
-  public highest;
+  public data_line = [];        // data used in the line chart
+  public data_circular_A = [];  // category A event data, used in the circular chart 
+  public data_circular_B = [];  // category B event data, used in the circular chart
+  public data_circular_C = [];  // category C event data, used in the circular chart
+  public highest;               // statistic data from sensor meta
   public lowest;
   public highestDate;
   public lowestDate;
 
-  public events = [];
-  public selectedEvent: Event;
-  public eventOnChart = [];
-  public evt_y=75;
+  public events = [];           // events list from SQL server
+  public selectedEvent: Event; 
+  public eventOnChart = [];     // plotbands that indicat the events on the chart
+  public evt_y=75;              // y-axis value of event title shown on teh chart
   
-  public additionalMetadata: AdditionalMetadata[] = [];
+  public additionalMetadata: AdditionalMetadata[] = []; // additional metadata list from SQL server
   public selectedMeta: AdditionalMetadata;
 
   plotBandEvents = {
@@ -241,16 +233,15 @@ export class WssbComponent implements OnInit {
           this.evt_y = 75;
         }
       }
-      
       this.updateFromInput = true;
     });
   }
 
   selectChart(value: {chartName: string}): void {
-  
   }
 
   // helper function to push events into events list
+  // this function will also intialize data for events plot bands and circular chart
   addEvent(data): void {
     const start = new Date(data.startDate);
     console.log('cat: '+ data.category);
@@ -265,6 +256,7 @@ export class WssbComponent implements OnInit {
       endtime = start.getTime();
       end = start;
     }
+    // calculate x-axis value and y-axis value of the point on circular chart
     const dateArr = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
     const day = start.getDate();
     const month = start.getMonth(); // getMonth() starts from 0
@@ -295,6 +287,7 @@ export class WssbComponent implements OnInit {
       this.data_circular_C.push([circular_x, circular_y]);
     }
 
+    // initialize events plot bands
     if (endtime != starttime ){
       const start_utc  = Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate(),
       start.getUTCHours(), start.getUTCMinutes(), start.getUTCSeconds());
