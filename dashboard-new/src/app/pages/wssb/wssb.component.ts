@@ -1,6 +1,7 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import StockModule from 'highcharts/modules/stock';
+import HighchartsMore from 'highcharts/highcharts-more';
 
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -20,8 +21,9 @@ import {EditMetadataComponent} from '../../dialog/edit-metadata/edit-metadata.co
 import { ResourceLoader } from '@angular/compiler';
 
 
+HighchartsMore(Highcharts)
+/*
 StockModule(Highcharts);
-
 Highcharts.setOptions({
   title: {
     style: {
@@ -29,7 +31,7 @@ Highcharts.setOptions({
     }
   }
 });
-
+*/
 
 @Component({
   selector: 'app-wssb',
@@ -40,28 +42,33 @@ export class WssbComponent implements OnInit {
 
   public buildingID = 'WSSB';
   
-  public charts = [{chartName:'Scatter Plot'},
-                    {chartName:'Line Chart'}];
   public isCollapsed = false;
   public Highcharts = Highcharts;
+  public chartConstructor='';
   public updateFromInput = true;
 
-  public selectedChart = {chartName:'Line Chart'};
   public chartOption;  // chart option choosed by user
   public chartOption_line;
-  public chartOption_scatter;
-  
+  public chartOption_circular;
+  public selectedChart = { label: 'Line Chart', constructor: 'stockChart', chartoption: this.chartOption_line};
+  public charts =  [{ label: 'Line', constructor: 'stockChart', chartoption: this.chartOption_line },
+                    { label: 'Circular Chart', constructor: '', chartoption: this.chartOption_circular }];
+
   public sensors: [];
   public selectedSensor = {id:''};
   
   public sensorData;
   public seriesData: [];
   public timestamps = [];
-  public data = []; // data used on the chart
+  public data_line = []; // data used in the line chart
+  public data_circular_A = []; // data used in the circular chart
+  public data_circular_B = [];
+  public data_circular_C = [];
 
   public events = [];
   public selectedEvent: Event;
   public eventOnChart = [];
+  public evt_y=75;
   
   public additionalMetadata: AdditionalMetadata[] = [];
   public selectedMeta: AdditionalMetadata;
@@ -128,7 +135,7 @@ export class WssbComponent implements OnInit {
           valueDecimals: 2,
           pointFormat: '{point.x:%m-%d}: {point.y:.2f} °C'
         },
-        data:this.data
+        data:this.data_line
       }],
       yAxis: {
         title: {text:'Celsius'}
@@ -141,6 +148,63 @@ export class WssbComponent implements OnInit {
         plotBands: this.eventOnChart,
       }
     };
+
+    this.chartOption_circular = {
+      chart: {
+        polar: true,
+      },
+      title: {
+        text: 'Event Statistics for Sensor Data'
+      },
+      pane: {
+        startAngle: 0,
+        endAngle: 360
+      },
+      // the angle indicates the event time in a day
+      xAxis: {
+        tickInterval: 30,
+        min: 0,
+        max: 360,
+        labels: {
+          formatter: function () {
+            return (this.value/30)*2 + ':00';
+          }
+        }
+      },
+      // the radius indicates the day event happened in a year 
+      yAxis: {
+        min: 0,
+        max: 365 
+      },
+      plotOptions: {
+        series: {
+          pointStart: 0,
+          pointInterval: 45
+        },
+        column: {
+          pointPadding: 0,
+          groupPadding: 0
+        }
+      },
+      series: [{
+        type: 'scatter',
+        name: 'Event A',
+        color: '#DC143C',
+        data: this.data_circular_A
+      },
+      {
+        type: 'scatter',
+        name: 'Event B',
+        color: '#FFD700',
+        data: [[20,110],[75,30],[255,190]]
+      },
+      {
+        type: 'scatter',
+        name: 'Event C',
+        color: '#00BFFF',
+        data: this.data_circular_C
+      }, ]
+    }
   };
 
 
@@ -154,36 +218,41 @@ export class WssbComponent implements OnInit {
       for (let i =0; i<this.seriesData.length; i++){
         var tempDate = new Date(this.seriesData[i][0]);
         var tms = Date.UTC(tempDate.getUTCFullYear(),tempDate.getMonth(),tempDate.getDate(),tempDate.getHours(),tempDate.getMinutes());
-        this.data.push([tms,this.seriesData[i][1]]);
+        this.data_line.push([tms,this.seriesData[i][1]]);
       }
-      
+
       for (const item of data.additionalMetadata) {
         this.additionalMetadata.push(item);
       }
       for (const item of data.events) {
         this.addEvent(item);
+        this.evt_y = this.evt_y - 15;
+        if (this.evt_y == 0){
+          this.evt_y = 75;
+        }
       }
-      for (const item of this.eventOnChart){
-        console.log('event: ' + item.from);
-      }
+      
       this.updateFromInput = true;
     });
   }
 
   selectChart(value: {chartName: string}): void {
-    console.log('select: ' + value.chartName);
-    if (value.chartName == 'Scatter Plot'){
-      this.chartOption = this.chartOption_scatter;
+    /*
+    if (value.chartName == 'Event Statistics'){
+      this.chartOption = this.chartOption_circular;
+      this.chartConstructor = '';
       this.updateFromInput = true;
-    } else if (value.chartName == 'Line Chart'){
+    } else if (value.chartName == 'Sensor Data'){
       this.chartOption = this.chartOption_line;
+      this.chartConstructor = 'stockChart';
       this.updateFromInput = true;
-    }
+    }*/
   }
 
   // helper function to push events into events list
   addEvent(data): void {
     const start = new Date(data.startDate);
+    console.log('cat: '+ data.category);
     let starttime: number;
     let endtime: number;
     let end: Date;
@@ -195,10 +264,40 @@ export class WssbComponent implements OnInit {
       endtime = start.getTime();
       end = start;
     }
+    const dateArr = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+    const day = start.getDate();
+    const month = start.getMonth(); // getMonth() starts from 0
+    const year = start.getFullYear();
+    const hour = start.getHours();
+    const minute = start.getMinutes();
+    const second = start.getSeconds();
+    let circular_y = 0;
+    let circular_x = 0;
+    let seconds = (hour * 3600 + minute * 60 + second)/86400;
+    circular_x = Math.round(seconds * 360);
+    for ( let i = 0; i < month; i++) {
+      circular_y += dateArr[i];
+    }
+    circular_y += day;
+    // check if it is Leap year
+    if (month > 1 && (year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+      circular_y += 1;
+    }
+    if (data.category =='category A'){
+      console.log('a here ' + circular_y +' '+ circular_x)
+      this.data_circular_A.push([circular_x, circular_y]);
+    }
+    if (data.category =='category B'){
+      this.data_circular_B.push([circular_x, circular_y]);
+    }
+    if (data.category =='category C'){
+      this.data_circular_C.push([circular_x, circular_y]);
+    }
+
     if (endtime != starttime ){
-      
       const start_utc  = Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate(),
       start.getUTCHours(), start.getUTCMinutes(), start.getUTCSeconds());
+
       const end_utc = Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate(),
       end.getUTCHours(), end.getUTCMinutes(), end.getUTCSeconds());
 
@@ -219,7 +318,7 @@ export class WssbComponent implements OnInit {
             style: {
               color: '#999999'
             },
-            y: 30
+            y: this.evt_y
           }
         }
       );
@@ -238,6 +337,7 @@ export class WssbComponent implements OnInit {
     };
     this.events.push(eventToAdd);
     this.updateFromInput = true;
+    
   }
 
   selectMeta(data) {
@@ -365,23 +465,6 @@ export class WssbComponent implements OnInit {
         }
       }
     )
-  }
-
-  deleteEventDialog(): void {
-    const modalRef = this.modalService.create({
-      nzTitle: 'Delete this Evnet',
-      nzContent: DeleteEventComponent,
-      nzComponentParams: { deleteEvent: this.selectedEvent},
-    });
-    modalRef.afterClose.subscribe(
-      result =>{
-        if (result){
-          this.sensorService.deleteEvent(this.selectedEvent.id).subscribe((response) => {
-            this.events = this.events.filter(item => item !== this.selectedEvent);
-          });
-        }
-      }
-    );
   }
 
   addEventDialog(): void {

@@ -32,7 +32,8 @@
               "src/theme.less",
               "src/styles.css"
             ],
-            "scripts": ["node_modules/moment/min/moment.min.js"]
+            "scripts": ["node_modules/moment/min/moment.min.js",
+              "http://cdn.hcharts.cn/highcharts/highcharts-more.js"]
           },
           "configurations": {
             "production": {

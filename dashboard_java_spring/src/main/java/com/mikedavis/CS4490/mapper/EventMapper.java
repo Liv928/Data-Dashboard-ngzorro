@@ -22,7 +22,7 @@ public interface EventMapper {
     @Insert("INSERT INTO Events(title, description, start_date, end_date, building_id, cluster_id, is_global, category) VALUES (#{title}, #{description}, #{startDate}, #{endDate}, #{buildingId}, #{clusterId}, #{isGlobal}, #{category})")
     void insertEvent(Event event);
 
-    @Select("SELECT e.id, e.title, e.description, e.start_date as startDate, e.end_date as endDate, e.building_id as buildingId, e.cluster_id as clusterId FROM Events e LEFT JOIN Clusters c ON e.cluster_id = c.id WHERE (e.building_id = #{buildingId} AND (c.id IN (SELECT id FROM SensorClusters WHERE sensor_id = #{sensorId}) OR c.id IS NULL)) OR e.building_id = 'GLOBAL'")
+    @Select("SELECT e.id, e.title, e.description, e.start_date as startDate, e.end_date as endDate, e.building_id as buildingId, e.cluster_id as clusterId, e.is_global as isGlobal, e.category as category FROM Events e LEFT JOIN Clusters c ON e.cluster_id = c.id WHERE (e.building_id = #{buildingId} AND (c.id IN (SELECT id FROM SensorClusters WHERE sensor_id = #{sensorId}) OR c.id IS NULL)) OR e.building_id = 'GLOBAL'")
     List<Event> getEvents(String buildingId, String sensorId);
 
     @Delete("DELETE FROM Events WHERE id = #{id}")
