@@ -11,7 +11,7 @@ import { Observable, Observer } from 'rxjs';
 export class AddEventComponent implements OnInit {
 
   public buildings = [];
-  public clusters = ['test A'];
+  public clusters = ['1101'];
   public eventCategory = ['category A', 'category B', 'category C'];
   
   public eventTitle = '';

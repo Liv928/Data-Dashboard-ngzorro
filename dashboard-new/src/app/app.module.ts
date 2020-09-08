@@ -38,6 +38,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 
 
+
 import { HomeComponent } from './pages/home/home.component';
 import { MiscComponent } from './pages/misc/misc.component';
 import { FnbComponent } from './pages/fnb/fnb.component';
@@ -106,7 +107,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NzStatisticModule,
     NzCardModule,
     NzNotificationModule,
-    NzMessageModule
+    NzMessageModule,
+    
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, NzModalService, { provide: NZ_ICONS, useValue: icons }],
   bootstrap: [AppComponent]

@@ -6,7 +6,7 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Title</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="titleErrorTpl">
-        <input nz-input formControlName="metaTitle" placeholder="Metadata title" />
+        <input nz-input formControlName="metaTitle" placeholder="{{metaTitle}}"/>
         <ng-template #titleErrorTpl let-control>
           <ng-container *ngIf="control.hasError('required')">
             Please enter a title for this metadata !
@@ -24,7 +24,7 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Description</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="descErrorTpl">
-        <input nz-input formControlName="metaDescription" placeholder="Metadata description" />
+        <input nz-input formControlName="metaDescription" placeholder="{{metaDescription}}" />
         <ng-template #descErrorTpl let-control>
           <ng-container *ngIf="control.hasError('required')">
             Please enter a description for this metadata!

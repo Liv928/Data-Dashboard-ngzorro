@@ -4,7 +4,7 @@ import StockModule from 'highcharts/modules/stock';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import {AdditionalMetadata} from './model/additional-metadata';
 
-
+import * as moment from 'moment';
 
 StockModule(Highcharts);
 

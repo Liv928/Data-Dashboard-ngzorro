@@ -118,7 +118,6 @@ export class WssbComponent implements OnInit {
     });
     this.chartOption_line = {
       chart:{
-        
       },
       plotOptions: {
       },
@@ -140,104 +139,8 @@ export class WssbComponent implements OnInit {
           week: '%Y-%m-%d'
         },
         plotBands: this.eventOnChart,
-        /*
-        plotBands: [{
-          from: Date.UTC(2016, 10, 27),
-          to: Date.UTC(2016, 10, 28),
-          color: '#EFFFFF',
-          label: {
-            text: '<em>Events:</em><br> test date',
-            style: {
-              color: '#999999'
-            },
-            y: 30
-          }
-        }, {
-          from: Date.UTC(2016, 11, 1),
-          to: Date.UTC(2017, 1, 1),
-          color: '#FFFFEF',
-          label: {
-            text: '<em>Events:</em><br> wssb events',
-            style: {
-              color: '#999999'
-            },
-            y: 30
-          }
-        }, {
-          from: Date.UTC(2017, 1, 1),
-          to: Date.UTC(2017, 10, 27),
-          color: '#FFEFFF',
-          label: {
-            text: '<em>Events:</em><br> summer events',
-            style: {
-              color: '#999999'
-            },
-            y: 30
-          }
-        }]*/
       }
     };
-    /*
-    this.chartOption_scatter = {
-      chart: {
-        type: 'scatter',
-        zoomType: 'xy'
-      },
-      legend: {
-        layout: 'vertical',
-        align: 'left',
-        verticalAlign: 'middle',
-        itemHoverStyle: {
-          color: 'red',
-        }
-      },
-      title: {text: 'Temperature Sensor Data'},
-      series: [{
-        color: 'rgb(233,83,83)',
-        name: '',
-        tooltip: {
-          valueDecimals: 2
-        },
-        data:this.datapoint
-      }],
-      yAxis: {
-
-        title: {text:'Degrees Celsius'}
-      },
-      xAxis: {
-        categories: this.timestamps,
-        type: 'date',
-        dateTimeLabelFormats: {
-            day:'%b.%e'
-        },
-        TickInterval: 1 
-      },
-      plotOptions: {
-        scatter: {
-          marker: {
-            radius: 5,
-            states: {
-              hover: {
-                enabled: true,
-                lineColor: 'rgb(250,100,100)'
-              }
-            }
-          },
-          states: {
-            hover: {
-              marker: {
-                enabled: false
-              }
-            }
-          },
-          tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x} date, {point.y} degree'
-          }
-        }
-      },
-    };
-    this.chartOption = this.chartOption_scatter;*/
   };
 
 
@@ -245,8 +148,6 @@ export class WssbComponent implements OnInit {
     this.sensorService.getAllSensorData(value.id).subscribe((data) => {
       this.additionalMetadata = [];
       this.events.length = 0;
-      /*
-      this.eventData = null;*/
       this.sensorData = data.sensor.data;
       this.seriesData = JSON.parse(data.data);
     
@@ -280,7 +181,7 @@ export class WssbComponent implements OnInit {
     }
   }
 
-  // helper function to push events into events lis
+  // helper function to push events into events list
   addEvent(data): void {
     const start = new Date(data.startDate);
     let starttime: number;
@@ -303,7 +204,7 @@ export class WssbComponent implements OnInit {
 
       function randomHexColor() {
         const eventColor: string[] = ['#EFFFFF', '#FFFFEF', '#FFEFFF'];
-        var index = Math.floor((Math.random()*eventColor.length));
+        var index = Math.floor((Math.random() * eventColor.length));
         return eventColor[index];
       }
 
@@ -322,20 +223,20 @@ export class WssbComponent implements OnInit {
           }
         }
       );
-      console.log("plot ent:" + this.eventOnChart.length);
-    }    
-
-    this.events.push({
+    }
+    let eventToAdd: Event;  
+    eventToAdd = {
       id: data.id,
       title: data.title,
       description: data.description,
-      cluster: data.cluster,
-      from: start,
-      to: end,
-      that: this,
-      color: 'rgba(255,0,0,0.5)',
-      events: this.plotBandEvents, 
-    });
+      startDate: start,
+      endDate: end,
+      buildingId: data.buildingId,
+      clusterId: data.clusterId,
+      isGlobal: data.isGlobal,
+      category: data.category
+    };
+    this.events.push(eventToAdd);
     this.updateFromInput = true;
   }
 
@@ -367,10 +268,12 @@ export class WssbComponent implements OnInit {
     };
   }
 
-  editMetaDialog(): void {
+  editMetaDialog(metadata): void {
+    console.log('edit id '+ metadata.id);
     const modalRef = this.modalService.create({
       nzTitle: 'Edit Metadata',
       nzContent: EditMetadataComponent,
+      nzComponentParams: {metaId: metadata.id, metaTitle: metadata.title, metaDescription: metadata.description},
     });
 
     modalRef.afterClose.subscribe(
@@ -378,13 +281,12 @@ export class WssbComponent implements OnInit {
         modalRef.close();
         if (result) {
           const updateMetadata: AdditionalMetadata = {
-            id: null,
+            id: result.metaId,
             title: result.metaTitle,
             description: result.metaDescription,
             sensorId: this.selectedSensor.id
           };
           this.sensorService.updateMetadata(updateMetadata).subscribe((response) => {
-            this.additionalMetadata.push(updateMetadata);
           });
         }
       }
@@ -428,17 +330,26 @@ export class WssbComponent implements OnInit {
     )
   }
 
-  editEventDialog(): void {
+  editEventDialog(event): void {
     const modalRef = this.modalService.create({
-      nzTitle: 'Eidt Evnet',
-      nzContent: EditEventComponent
+      nzTitle: 'Eidt Event',
+      nzContent: EditEventComponent,
+      nzComponentParams:{ eventId: event.id,
+                          eventTitle: event.title,
+                          eventDescription: event.description,
+                          startDate: event.startDate,
+                          endDate:event.endDate,
+                          selectedCluster: event.clusterId,
+                          isGlobal: event.isGlobal,
+                          eventCategory:event.category},
     });
+    
     modalRef.afterClose.subscribe(
       result => {
         modalRef.close();
         if (result) {
           const updateEvent: Event = {
-            id: null,
+            id: result.eventId,
             title: result.eventTitle,
             description: result.eventDescription,
             startDate: result.startDate,
@@ -448,9 +359,8 @@ export class WssbComponent implements OnInit {
             isGlobal: result.isGlobal,
             category: result.category
           };
-          console.log('result: ' + updateEvent.isGlobal);
+          console.log('update: ' + updateEvent.description);
           this.sensorService.updateEvent(updateEvent).subscribe((response) => {
-            this.events.push(updateEvent);
           });
         }
       }
@@ -495,7 +405,6 @@ export class WssbComponent implements OnInit {
             isGlobal: result.isGlobal,
             category: result.category
           };
-          console.log('result: ' + addEvent.isGlobal);
           this.sensorService.saveEvent(addEvent).subscribe((response) => {
             this.events.push(addEvent);
           });

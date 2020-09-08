@@ -43,6 +43,7 @@ public class SensorController {
 
     @RequestMapping(path = "/sensor/updatemetadata", method = RequestMethod.POST)
     public void updateMeta(@RequestBody AdditionalMetadata additionalMetadata){
+        System.out.println("update");
         sensorService.updateAdditionalMetadata(additionalMetadata);
     }
 }

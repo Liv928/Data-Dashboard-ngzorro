@@ -32,7 +32,7 @@
               "src/theme.less",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/moment/min/moment.min.js"]
           },
           "configurations": {
             "production": {

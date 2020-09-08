@@ -5,7 +5,7 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Title</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="titleErrorTpl">
-        <input nz-input formControlName="eventTitle" placeholder="Event title" />
+        <input nz-input formControlName="eventTitle" placeholder="{{eventTitle}}"/>
         <ng-template #titleErrorTpl let-control>
           <ng-container *ngIf="control.hasError('required')">
             Please enter a title for this event !
@@ -22,7 +22,7 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>Description</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="descErrorTpl">
-        <input nz-input formControlName="eventDescription" placeholder="Event description" />
+        <input nz-input formControlName="eventDescription" placeholder="{{eventDescription}}" />
         <ng-template #descErrorTpl let-control>
           <ng-container *ngIf="control.hasError('required')">
             Please enter a description for this event!
@@ -34,21 +34,21 @@
     <nz-form-item>
       <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Start Date</nz-form-label>
       <nz-form-control [nzSm]="16" [nzXs]="24">
-        <nz-date-picker nzShowTime formControlName="startDate"></nz-date-picker>
+        <nz-date-picker nzShowTime formControlName="startDate" [nzPlaceHolder]="startDate" ></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label [nzSm]="8" [nzXs]="24">End Date</nz-form-label>
       <nz-form-control [nzSm]="16" [nzXs]="24">
-        <nz-date-picker nzShowTime formControlName="endDate"></nz-date-picker>
+        <nz-date-picker nzShowTime formControlName="endDate" [nzPlaceHolder]="endDate"></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
     
     <nz-form-item>
       <nz-form-label [nzSm]="8" [nzXs]="24">Cluster</nz-form-label>
       <nz-form-control [nzSm]="16" [nzXs]="24">
-        <nz-select formControlName="clusterId" nzPlaceHolder="Select a cluster">
+        <nz-select formControlName="selectedCluster" [nzPlaceHolder]="selectedCluster">
           <nz-option *ngFor="let cluster of clusters" [nzValue]="cluster" [nzLabel]="cluster"></nz-option>
         </nz-select>
       </nz-form-control>
@@ -57,8 +57,8 @@
     <nz-form-item>
       <nz-form-label [nzSm]="8" [nzXs]="24">Event Category</nz-form-label>
       <nz-form-control [nzSm]="16" [nzXs]="24">
-        <nz-select formControlName="category" nzPlaceHolder="Select a category">
-          <nz-option *ngFor="let cat of eventCategory" [nzValue]="cat" [nzLabel]="cat"></nz-option>
+        <nz-select formControlName="eventCategory" [nzPlaceHolder]="eventCategory">
+          <nz-option *ngFor="let cat of Category" [nzValue]="cat" [nzLabel]="cat"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
@@ -79,4 +79,3 @@
   </form>
  
 </div>
-

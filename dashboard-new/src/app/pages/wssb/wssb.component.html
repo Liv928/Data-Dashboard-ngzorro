@@ -44,7 +44,7 @@
             {{Metadata.description}}
           </p>
           <div style="text-align:center">
-          <button nz-button class="button-function" nzType="primary" (click)="editMetaDialog()">
+          <button nz-button class="button-function" nzType="primary" (click)="editMetaDialog(Metadata)">
             <span>Edit</span>
           </button>  
           <button nz-button class="button-function" nzType="primary" (click)="deleteMetaConfirm(Metadata)">Delete</button>  
@@ -65,11 +65,11 @@
       <nz-collapse-panel *ngFor="let event of events" [nzHeader]="event.title" [nzActive]="false">
         <p style="margin:0;">
           Description: {{event.description}}
-          <br> Start Date: {{event.from}}
-          <br> End Date: {{event.to}}
+          <br> Start Date: {{event.startDate}}
+          <br> End Date: {{event.endDate}}
         </p>
         <div style="text-align:center">
-        <button nz-button class="button-function" nzType="primary" (click)="editEventDialog()">
+        <button nz-button class="button-function" nzType="primary" (click)="editEventDialog(event)">
           <span>Edit</span>
         </button>  
         <button nz-button class="button-function" nzType="primary" (click)="deleteEventConfirm(event)">Delete</button>  

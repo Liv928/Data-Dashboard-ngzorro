@@ -51,6 +51,7 @@ public class SensorServiceImpl implements SensorService{
     //user edit metadata
     @Override
     public void updateAdditionalMetadata(AdditionalMetadata additionalMetadata) {
+        System.out.println("update id "+additionalMetadata.getSensorId());
         metaMapper.updateMeta(additionalMetadata);
     }
 }
