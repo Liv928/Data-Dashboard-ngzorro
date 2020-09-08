@@ -3,7 +3,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 This dashboard is an exploration of event tagging for sensor data.
 
-![image](https://github.com/Liv928/Data-Dashboard-ngzorro/dashboard-new/img/overview.png)
+![image](https://github.com/Liv928/Data-Dashboard-ngzorro/master/dashboard-new/img/overview.png)
 
 ## Development server
 
