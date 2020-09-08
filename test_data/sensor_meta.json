@@ -1,6 +1,7 @@
-{"_id":"3357.0.TL1","units":"1","log_interval":1,"name":"Air Temperature","units_name":"1628","source":"3357","first":"2016-08-19","last":"2016-08-28","ts_utc":{"$date":"2018-05-20T01:23:52.146Z"}}
-{"_id":"5765.0.WT1","units":"2","log_interval":2,"name":"Weather-Temperature","units_name":"1628","source":"3357","first":"2016-08-19","last":"2016-08-29","ts_utc":{"$date":"2018-05-20T01:23:52.146Z"}}
-{"_id":"5765.830300.TL8","units":"3","log_interval":3,"name":"Mixed Air Temperature","units_name":"1628","source":"3357","first":"2016-08-19","last":"2016-08-30","ts_utc":{"$date":"2018-05-20T01:23:52.146Z"}}
-{"_id":"5765.830501.TL1","units":"4","log_interval":4,"name":"Space Temperature","units_name":"1628","source":"3357","first":"2016-08-19","last":"2016-09-29","ts_utc":{"$date":"2018-05-20T01:23:52.146Z"}}
+{"_id":"3357.0.TL1","units":"1","log_interval":1,"name":"Air Temperature","units_name":"1628","source":"3357","first":"2016-08-19","last":"2016-08-28","highest" : 23.9999999999999,
+    "lowest" : 0.0,"ts_utc":{"$date":"2018-05-20T01:23:52.146Z"}}
+{"_id":"5765.0.WT1","units":"2","log_interval":2,"name":"Weather-Temperature","units_name":"1628","source":"3357","first":"2016-08-19","last":"2016-08-29","highest" : 0.0 ,"lowest" : 0.0,"ts_utc":{"$date":"2018-05-20T01:23:52.146Z"}}
+{"_id":"5765.830300.TL8","units":"3","log_interval":3,"name":"Mixed Air Temperature","units_name":"1628","source":"3357","first":"2016-08-19","last":"2016-08-30","highest" : 0.0 ,"lowest" : 0.0,"ts_utc":{"$date":"2018-05-20T01:23:52.146Z"}}
+{"_id":"5765.830501.TL1","units":"4","log_interval":4,"name":"Space Temperature","units_name":"1628","source":"3357","first":"2016-08-19","last":"2016-09-29","highest" : 0.0 ,"lowest" : 0.0,"ts_utc":{"$date":"2018-05-20T01:23:52.146Z"}}
 
 
